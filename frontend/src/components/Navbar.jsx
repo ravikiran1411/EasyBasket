@@ -1,0 +1,261 @@
+// import React, { useState } from 'react'
+// import { Link, NavLink, useNavigate } from 'react-router-dom'
+// import { assets } from '../assets/assets.js'
+
+// const Navbar = () => {
+//   const [visible, setvisible] = useState(false)
+//   const navigate = useNavigate()
+
+//   return (
+//     <div className="bg-white shadow-sm sticky top-0 z-50">
+
+//       {/* Top Navbar */}
+//       <div className="flex justify-between items-center gap-5 px-4 sm:px-10 py-3">
+
+//         {/* Logo */}
+//         <Link to="/" className="text-md sm:text-2xl font-bold text-green-700">EasyBasket</Link>
+//         <div className='hidden sm:flex items-center gap-1'> 
+//             <img src={assets.map_icon} className='w-4 h-4' />
+//             <p>location</p>
+//         </div> 
+
+//         {/* <div className="flex-1 mx-4 relative">
+//             <input type="text" placeholder="Search groceries..." className="hidden sm:block w-full px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"/>
+//             <img src={assets.search_icon} className=" w-3 sm:w-5 absolute right-3 top-1/2 transform -translate-y-1/2 opacity-60 cursor-pointer" alt=""/>
+//         </div>  */}
+
+//         <div className="flex-1 mx-4 relative flex justify-end">
+//             <input type="text" placeholder="Search groceries..." className="hidden sm:block w-full px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"/>
+//             <img src={assets.search_icon} className="w-5 sm:absolute sm:right-3 sm:top-1/2 sm:-translate-y-1/2 opacity-60 cursor-pointer" alt=""/>
+//         </div>
+
+//         {/* Categories */}
+//         <div className='hidden md:flex items-center gap-2 mx-5'>
+//           <NavLink  to="/product" className="font-medium hover:text-green-600">Groceries</NavLink>
+//           <select className='border border-gray-300 px-2 py-1 rounded w-40 outline-none'>
+//             <option value='all'>All categories</option>
+//             <option value='vegetables'>Vegetables</option>
+//             <option>Fruits</option> 
+//             <option>Dairy products</option> 
+//             <option>Dry Fruits</option>
+//             <option>Snacks</option>
+//             <option>Spatals</option> 
+//           </select> 
+//         </div> 
+
+//         {/* Right Side */}
+//         <div className="flex items-center gap-10">
+
+//           {/* Cart */}
+//           <Link to='/cart' className="relative"> 
+//             <img src={assets.cart_icon} className="w-6" alt="" />
+//             <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">2</span>
+//           </Link> 
+
+//           {/* Profile */}
+//           <div className="group relative">
+//             <img
+//               src={assets.profile_icon}
+//               alt=""
+//               className="w-8 h-8 cursor-pointer rounded-full border p-1"
+//             /> 
+
+//             <div className="group-hover:block hidden absolute right-0 pt-4">
+//               <div className="flex flex-col gap-2 w-36 py-3 px-3 bg-white shadow-md rounded">
+//                 <p onClick={() => navigate('/profile')}
+//                   className="cursor-pointer hover:text-green-600">
+//                   My Profile
+//                 </p>
+
+//                 <p onClick={() => navigate('/orders')}
+//                   className="cursor-pointer hover:text-green-600">
+//                   Orders
+//                 </p> 
+
+//                 <p onClick={() => navigate('/login')}
+//                   className="cursor-pointer hover:text-green-600">
+//                   Login
+//                 </p>
+
+//                 <p className="cursor-pointer hover:text-green-600">
+//                   Logout
+//                 </p>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Mobile Menu */}
+//           <img
+//             onClick={() => setvisible(true)}
+//             src={assets.menu_icon}
+//             className='w-7 cursor-pointer md:hidden'
+//             alt=""
+//           />
+//         </div>
+//       </div>
+
+//       {/* Mobile Sidebar */}
+//       <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform ${visible ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 md:hidden`}>
+
+//         <div className="flex justify-end p-4">
+//           <button onClick={() => setvisible(false)}>✕</button>
+//         </div>
+
+//         <div className="flex flex-col gap-5 px-6 text-gray-700">
+//           <NavLink onClick={() => setvisible(false)} to="/">Home</NavLink>
+//           <NavLink onClick={() => setvisible(false)} to="/products">Shop</NavLink>
+//           <NavLink onClick={() => setvisible(false)} to="/categories">Categories</NavLink>
+//           <NavLink onClick={() => setvisible(false)} to="/offers">Offers</NavLink>
+//           <NavLink onClick={() => setvisible(false)} to="/cart">Cart</NavLink>
+//         </div>
+//       </div>
+
+//     </div>
+//   )
+// }
+
+// export default Navbar
+
+import React, { useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { assets } from '../assets/assets.js'
+
+const Navbar = () => {
+  const [visible, setvisible] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+  const navigate = useNavigate() 
+
+  return (
+    <div className="bg-white shadow-sm sticky top-0 z-50">
+
+      {/* Top Navbar */}
+      <div className="flex justify-between items-center gap-3 sm:gap-5 px-4 sm:px-10 py-3">
+
+        {/* Logo + Location */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Link to="/" className="text-md sm:text-2xl font-bold text-green-700">
+            EasyBasket
+          </Link>
+
+          {/* Location (visible on mobile also) */}
+          <div className='flex items-center gap-1 text-xs sm:text-sm cursor-pointer'>
+            <img src={assets.map_icon} className='w-4 h-4' alt="" />
+            <p className="hidden sm:block">Hyderabad</p>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div className="flex-1 mx-2 sm:mx-4 relative flex justify-end">
+
+          {/* Desktop Search */} 
+          <input
+            type="text"
+            placeholder="Search groceries..."
+            className="hidden sm:block w-full px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"
+          />
+
+          {/* Mobile Search Input */}
+          {showSearch && (
+            <input
+              type="text"
+              placeholder="Search..."
+              className="absolute top-12 left-0 w-full px-4 py-2 border rounded outline-none sm:hidden bg-white shadow"
+            />
+          )}
+
+          {/* Search Icon */}
+          <img
+            onClick={() => setShowSearch(!showSearch)}
+            src={assets.search_icon}
+            className="w-5 sm:absolute sm:right-3 sm:top-1/2 sm:-translate-y-1/2 opacity-60 cursor-pointer"
+            alt=""
+          />
+        </div>
+
+        {/* Categories (desktop only) */}
+        <div className='hidden md:flex items-center gap-2 mx-5'>
+          <NavLink to="/product" className="font-medium hover:text-green-600">
+            Groceries
+          </NavLink>
+
+          <select className='border border-gray-300 px-2 py-1 rounded w-40 outline-none'>
+            <option value='all'>All categories</option>
+            <option value='vegetables'>Vegetables</option>
+            <option>Fruits</option>
+            <option>Dairy products</option>
+            <option>Dry Fruits</option>
+            <option>Snacks</option>
+            <option>Spatals</option>
+          </select>
+        </div>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-4 sm:gap-10">
+
+          {/* Cart */}
+          <Link to='/cart' className="relative">
+            <img src={assets.cart_icon} className="w-6" alt="" />
+            <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
+              2
+            </span>
+          </Link>
+
+          {/* Profile */}
+          <div className="group relative hidden sm:block">
+            <img
+              src={assets.profile_icon}
+              alt=""
+              className="w-8 h-8 cursor-pointer rounded-full border p-1"
+            />
+
+            <div className="group-hover:block hidden absolute right-0 pt-4">
+              <div className="flex flex-col gap-2 w-36 py-3 px-3 bg-white shadow-md rounded">
+                <p onClick={() => navigate('/profile')} className="cursor-pointer hover:text-green-600">
+                  My Profile
+                </p>
+
+                <p onClick={() => navigate('/orders')} className="cursor-pointer hover:text-green-600">
+                  Orders
+                </p>
+
+                <p onClick={() => navigate('/login')} className="cursor-pointer hover:text-green-600">
+                  Login
+                </p>
+
+                <p className="cursor-pointer hover:text-green-600">
+                  Logout
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          <img
+            onClick={() => setvisible(true)}
+            src={assets.menu_icon}
+            className='w-7 cursor-pointer md:hidden'
+            alt=""
+          />
+        </div>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform ${visible ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 md:hidden`}>
+
+        <div className="flex justify-end p-4">
+          <button onClick={() => setvisible(false)}>✕</button>
+        </div>
+
+        <div className="flex flex-col gap-5 px-6 text-gray-700">
+          <NavLink onClick={() => setvisible(false)} to="/">Home</NavLink>
+          <NavLink onClick={() => setvisible(false)} to="/products">Shop</NavLink>
+          <NavLink onClick={() => setvisible(false)} to="/categories">Categories</NavLink>
+          <NavLink onClick={() => setvisible(false)} to="/offers">Offers</NavLink>
+          <NavLink onClick={() => setvisible(false)} to="/cart">Cart</NavLink>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Navbar
