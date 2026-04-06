@@ -5,9 +5,11 @@ import Category from './pages/Category'
 import Login from './pages/Login'
 import ProductDetails from './pages/ProductDetails'
 import Navbar from './components/Navbar'
+import { ToastContainer } from 'react-toastify'
 const App = () => {
   return (
     <div>
+      <ToastContainer/>
 
       <Navbar />
       

@@ -10,15 +10,14 @@ import userRoutes from './routes/userRoutes.js'
 
 //app config
 const app= express()
-const port = 4000
-connectDB()
-connectCloudinary()
-
+const port = process.env.PORT || 4000
+connectDB() 
+connectCloudinary() 
 
 
 //middleware
-app.use(express.json())
-app.use(cors())
+app.use(express.json()) 
+app.use(cors()) 
 
 
 //endpoints

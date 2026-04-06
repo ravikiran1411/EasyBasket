@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+a.active{
+    color:green;
+    font-size:large ;
+}
