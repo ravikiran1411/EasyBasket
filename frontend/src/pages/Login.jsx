@@ -16,7 +16,6 @@ function Login() {
   const onSubmitHandler = async (e) =>{
     e.preventDefault();
 
-
     try {
       if (currentState==="Sign Up") {
         const response = await axios.post(backend_url+'/api/user/register',{name,email,password})

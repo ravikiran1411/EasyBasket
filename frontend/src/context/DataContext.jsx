@@ -14,16 +14,16 @@ const DataContextProvider = (props) =>{
     const backend_url = "http://localhost:4000";
     const [token,setToken]=useState("");
 
-
-   const data={
+    const data={
     LOCATIONS,selectedLocation,setSelectedLocation,currency,backend_url,token,setToken,  
 }
 
-    return (
-        <DataContext.Provider value={data}>
+    return ( 
+        <DataContext.Provider value={data}> 
             {props.children}
         </DataContext.Provider>
     )
 }
+
 
 export default DataContextProvider;

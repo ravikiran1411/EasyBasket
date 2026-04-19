@@ -79,7 +79,6 @@ const userRegister = async (req,res) =>{
 // admin login
 const adminLogin = async (req,res) =>{
     
-    
     try {
 
         const {email,password} = req.body
@@ -88,11 +87,13 @@ const adminLogin = async (req,res) =>{
             return res.json({success:false,message:"incorrect email/password."})
         }
 
-        const token = jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'1d'})
+        const token = jwt.sign({email},process.env.JWT_SECRET,{expiresIn:'1d'}) 
 
-        res.json({success:true,token})
+        res.json({success:true,token}) 
         
     } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message})
         
     }
 

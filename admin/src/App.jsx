@@ -13,9 +13,13 @@ const App = () => {
 
   const [token,setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '' ) 
 
-  useEffect(()=>{
-    localStorage.setItem('token',token)
-  },[token]) 
+  useEffect(() => {
+  if (token) {
+    localStorage.setItem("token", token);
+  } else {
+    localStorage.removeItem("token");
+  }
+}, [token]);
 
   return ( 
     <div className=''>
@@ -24,17 +28,14 @@ const App = () => {
       { token === '' ? <Login setToken={setToken} /> :  
       
       <div>
-        <Navbar />
+        <Navbar setToken={setToken} />
         <Routes>
-          <Route path='/' element={<Add />}/>
-          <Route path='/list' element={<List />} />
-          <Route path='/orders' element={<Order/>} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Add token={token} />}/>
+          <Route path='/list' element={<List token={token} />} />
+          <Route path='/orders' element={<Order token={token} />} />
         </Routes>
       </div>
-
       }
-
      
     </div>
   )

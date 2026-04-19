@@ -1,10 +1,12 @@
 
-const adminAuth =async (req,res) =>{
+import jwt from 'jsonwebtoken'
+
+const adminAuth =async (req,res,next) =>{
     try {
         
         const authHeader = req.headers.authorization 
 
-        if(!authHeader || !authHeader.startswith("Bearer")) {
+        if(!authHeader || !authHeader.startsWith("Bearer")) {
             return res.json({success:false,message:"No token provided"})
         }
 
@@ -12,7 +14,7 @@ const adminAuth =async (req,res) =>{
 
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
-        if(typeof decoded !== "object" && !decoded.email ) {
+        if(typeof decoded !== "object" || !decoded.email ) {
 
             return res.json({success:false,message:"invalid token"})
         }
@@ -24,7 +26,7 @@ const adminAuth =async (req,res) =>{
         next()
 
     } catch (error) {
-        
+        res.json({success:false,message:error.message})
     }
 }
 
