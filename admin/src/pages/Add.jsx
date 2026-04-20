@@ -16,6 +16,7 @@ const Add = ({token}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [quantity,setQuantity] = useState("")
   const [category, setCategory] = useState("Men");
   const [brand,setBrand] = useState("")
   const [stock,setStock] = useState(0)
@@ -37,10 +38,12 @@ const Add = ({token}) => {
       formData.append("name",name)
       formData.append("description",description)
       formData.append("price",price)
+      formData.append("quantity",quantity)
       formData.append("category",category)
       formData.append("brand",brand)
       formData.append("stock",stock)
       formData.append("bestSeller",bestseller)
+      
 
       image1 && formData.append("image1",image1)
       image2 && formData.append("image2",image2)
@@ -49,7 +52,6 @@ const Add = ({token}) => {
       console.log(formData);
 
       const response = await axios.post(backendUrl+'/api/product/add',formData,{headers:{Authorization:`Bearer ${finalToken}`}})
-      console.log(response.data);
       
       if(response.data.success) {
         toast.success(response.data.message)
@@ -58,7 +60,7 @@ const Add = ({token}) => {
         setPrice("")
         setBrand("")
         setStock(0)
-
+        setQuantity("")
       }
       else{
         toast.error(response.data.message);
@@ -71,8 +73,6 @@ const Add = ({token}) => {
       toast.error(error.message)
       
     }
-
-
 
   }
 
@@ -160,15 +160,25 @@ const Add = ({token}) => {
             placeholder="Enter description"
           />
         </div>
+        <div className='flex flex-col gap-2'>
+          <p>Quantity</p>
+          <input 
+          className='border outline-none w-full h-10 pl-4 rounded '
+          placeholder='in KG/Liters/in Pieces'
+          type='text'
+          value={quantity} 
+          onChange={(e)=>setQuantity(e.target.value)} />
+        </div>
         
         <div className="flex flex-col sm:flex-row gap-3">
           <div className='flex flex-col w-1/2'>
             <p className="mb-1">Price</p>
             <input
-              value={price}
-              onChange={(e)=>setPrice(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md"
-              placeholder="Price"
+            type='text'
+            value={price}
+            onChange={(e)=>setPrice(e.target.value)}
+            className="w-full border px-3 py-2 rounded-md"
+            placeholder="Price"
             />
 
           </div>
@@ -198,6 +208,8 @@ const Add = ({token}) => {
               <option value="snacks">Snacks</option>
               <option value="packagedFood">Packaged Food</option>
               <option value="grains">Grains</option>
+              <option value="combo">Combo Offers</option>
+
             </select>
           </div>
           <div className='w-1/2'>

@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-const slides = [
-  {
-    id: 1,
-    type: "left",
-    title: "Fresh Vegetables 🥦",
-    desc: "Farm fresh veggies at best price",
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e",
-    bg: "bg-green-100"
-  },
-  {
-    id: 2,
-    type: "center",
-    title: "50% OFF Sale 🛒",
-    desc: "Big discounts on groceries",
-    image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc"
-  },
-  {
-    id: 3,
-    type: "right",
-    title: "Healthy Fruits 🍎",
-    desc: "Fresh fruits directly from farms",
-    image: "https://images.unsplash.com/photo-1574226516831-e1dff420e43e",
-    bg: "bg-yellow-100"
-  }
-];
+import { assets } from "../assets/assets.js";
 
 const HeroSection = () => {
-  const [current, setCurrent] = useState(0);
-  const navigate = useNavigate();
 
-  // Auto slide
+  const [current, setCurrent] = useState(0);
+
+  const slides = [
+    {
+      title: "Fresh Groceries Delivered ",
+      desc: "Get fresh fruits & vegetables at your doorstep",
+      image: assets.hero1
+    },
+    {
+      title: "Combo Offers ",
+      desc: "Save more with our special combo packs",
+      image: assets.hero2
+    },
+    {
+      title: "All Groceries Available ",
+      desc: "Everything you need in one place",
+      image: assets.hero3
+    }
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -40,104 +31,114 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const nextSlide = () => {
-    setCurrent((current + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrent(current === 0 ? slides.length - 1 : current - 1);
-  };
-
   return (
-    <div className="relative w-full h-[300px] sm:h-[500px] overflow-hidden">
+    <div className="relative w-full h-[30vh] md:h-[45vh] overflow-hidden rounded-md">
 
       {slides.map((slide, index) => (
+
         <div
-          key={slide.id}
-          className={`absolute w-full h-full transition-opacity duration-700 ${
-            index === current ? "opacity-100" : "opacity-0"
+          key={index}
+          className={`absolute w-full h-full transition-all duration-700 ${
+            index === current ? "opacity-100 z-10" : "opacity-0"
           }`}
         >
+          
 
-          {/* 🔹 LEFT LAYOUT */}
-          {slide.type === "left" && (
-            <div className={`flex h-full ${slide.bg}`}>
-              <div className="w-1/2 flex flex-col justify-center p-6 sm:p-12">
-                <h1 className="text-2xl sm:text-4xl font-bold">{slide.title}</h1>
-                <p className="mt-2 text-gray-600">{slide.desc}</p>
-                <button
-                  onClick={() => navigate("/products")}
-                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-full"
-                >
+          {index === 0 && (
+            <div className="w-full h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-4 md:px-12 bg-gradient-to-r from-green-100 to-green-200 text-center md:text-left">
+
+              <div className="max-w-md md:max-w-lg">
+                <h1 className="text-xl md:text-5xl font-bold text-gray-800">
+                  {slide.title}
+                </h1>
+
+                <p className="mt-2 text-gray-600 text-xs md:text-base">
+                  {slide.desc}
+                </p>
+
+                <button className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
                   Shop Now
                 </button>
               </div>
-              <img src={slide.image} className="w-1/2 object-cover" />
+
+              <div className="mt-3 md:mt-0">
+                <img 
+                  src={slide.image} 
+                  className="w-[200px] md:w-[500px] lg:w-[600px]" 
+                />
+              </div>
+
             </div>
           )}
 
-          {/* 🔹 CENTER LAYOUT */}
-          {slide.type === "center" && (
+
+          {index === 1 && (
             <div className="relative w-full h-full">
-              <img src={slide.image} className="w-full h-full object-cover" />
 
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center">
-                <h1 className="text-2xl sm:text-4xl font-bold">{slide.title}</h1>
-                <p className="mt-2">{slide.desc}</p>
-                <button
-                  onClick={() => navigate("/products")}
-                  className="mt-4 bg-green-500 px-6 py-2 rounded-full"
-                >
-                  Shop Now
+              <img 
+                src={slide.image} 
+                className="w-full h-full object-cover"
+              />
+
+              <div className="absolute inset-0 bg-black/40"></div>
+
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-3">
+                <h1 className="text-xl md:text-5xl font-bold">
+                  {slide.title}
+                </h1>
+
+                <p className="mt-2 text-xs md:text-base">
+                  {slide.desc}
+                </p>
+
+                <button className="mt-3 md:mt-5 bg-green-600 px-4 py-2 md:px-6 md:py-3 rounded-md">
+                  Explore Combos
                 </button>
               </div>
+
             </div>
           )}
 
-          {/* 🔹 RIGHT LAYOUT */}
-          {slide.type === "right" && (
-            <div className={`flex h-full ${slide.bg}`}>
-              <img src={slide.image} className="w-1/2 object-cover" />
-              <div className="w-1/2 flex flex-col justify-center p-6 sm:p-12">
-                <h1 className="text-2xl sm:text-4xl font-bold">{slide.title}</h1>
-                <p className="mt-2 text-gray-600">{slide.desc}</p>
-                <button
-                  onClick={() => navigate("/products")}
-                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-full"
-                >
+
+          {index === 2 && (
+            <div className="w-full h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-4 md:px-12 bg-gradient-to-r from-blue-100 to-purple-100 text-center md:text-left">
+
+              <div className="max-w-md md:max-w-lg">
+                <h1 className="text-xl md:text-5xl font-bold text-gray-800">
+                  {slide.title}
+                </h1>
+
+                <p className="mt-2 text-gray-600 text-xs md:text-base">
+                  {slide.desc}
+                </p>
+
+                <button className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
                   Shop Now
                 </button>
               </div>
+
+              <div className="mt-3 md:mt-0">
+                <img 
+                  src={slide.image} 
+                  className="w-[200px] md:w-[450px] lg:w-[550px]" 
+                />
+              </div>
+
             </div>
           )}
 
         </div>
       ))}
 
-      <button
-        onClick={prevSlide}
-        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/70 px-3 py-1 rounded-full"
-      >
-        ❮
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/70 px-3 py-1 rounded-full"
-      >
-        ❯
-      </button>
-
-      {/* 🔘 Dots */}
-      <div className="absolute bottom-3 w-full flex justify-center gap-2">
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
         {slides.map((_, i) => (
           <div
             key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-3 h-3 rounded-full cursor-pointer ${
-              current === i ? "bg-green-500" : "bg-white"
+            className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full cursor-pointer ${
+              i === current ? "bg-green-600" : "bg-gray-400"
             }`}
-          />
+            onClick={() => setCurrent(i)}
+          ></div>
         ))}
       </div>
 

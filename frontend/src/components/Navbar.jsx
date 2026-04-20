@@ -1,43 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
-import { useContext } from 'react'
 import { DataContext } from '../context/DataContext.jsx'
-import { useEffect } from 'react'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
-  const {token,setToken} = useContext(DataContext)
-  const [login,setLogin] = useState("Login")
-  const navigate = useNavigate() 
+  const { token, setToken } = useContext(DataContext)
+  const [login, setLogin] = useState("Login")
+  const navigate = useNavigate()
 
-  const loginSet = async () =>{
-
-    if(token){
+  const loginSet = () => {
+    if (token) {
       setLogin('Logout')
-    }
-    else{
+    } else {
       setLogin('Login')
     }
-
   }
 
   const handleLogin = () => {
-  if(token){
-    setToken("")
-    localStorage.removeItem("token")
-    navigate('/login')
-    toast.success("Logged out")
-  } else {
-    navigate('/login')
+    if (token) {
+      setToken("")
+      localStorage.removeItem("token")
+      navigate('/login')
+      // toast.success("Logged out") // optional
+    } else {
+      navigate('/login')
+    }
   }
-}
 
-  useEffect(()=>{
+  useEffect(() => {
     loginSet()
-  },[token])
-
+  }, [token])
 
   return (
     <div className="bg-white shadow-sm sticky top-0 z-50">
@@ -57,15 +51,20 @@ const Navbar = () => {
 
         {/* Search */}
         <div className="flex-1 mx-2 sm:mx-4 relative flex justify-end">
-          <input type="text" placeholder="Search groceries..." className="hidden sm:block w-170 px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"/>
+          <input
+            type="text"
+            placeholder="Search groceries..."
+            className="hidden sm:block w-170 px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"
+          />
+
           {showSearch && (
             <input
               type="text"
               placeholder="Search..."
-              className=" absolute top-12 left-0 w-full px-4 py-2 border rounded outline-none sm:hidden bg-white shadow"
+              className="absolute top-12 left-0 w-full px-4 py-2 border rounded outline-none sm:hidden bg-white shadow"
             />
           )}
-          
+
           <img
             onClick={() => setShowSearch(!showSearch)}
             src={assets.search_icon}
@@ -74,20 +73,26 @@ const Navbar = () => {
           />
         </div>
 
-        <div className='hidden md:flex items-center gap-2 mx-5'>
-          <NavLink to="/product" className="font-medium hover:text-green-600">
-            Groceries
+        {/* UPDATED SECTION 🔥 */}
+        <div className='hidden md:flex items-center gap-3 mx-5'>
+          <NavLink to="/product" className="hover:text-green-600 font-semibold">
+            SHOP
           </NavLink>
 
-          <select className='border border-gray-300 px-2 py-1 rounded w-40 outline-none '>
-             
-            <option value='all'>All categories</option>
-            <option value='vegetables'>Vegetables</option>
-            <option>Fruits</option>
-            <option>Dairy products</option>
-            <option>Dry Fruits</option>
-            <option>Snacks</option>
-            <option>Spatals</option>
+          <select 
+          className="border border-gray-300 px-2 py-1 rounded min-w-37.5 outline-none"
+          onChange={(e) => {const value = e.target.value;
+          navigate(value === "all" ? "/product" : `/product?category=${value}`);}}
+          >
+            <option value="all">All Products</option> 
+            <option value="vegetables">Vegetables</option>
+            <option value="fruits">Fruits</option>
+            <option value="dairyProducts">Dairy</option>
+            <option value="dryFruits">Dry Fruits</option>
+            <option value="snacks">Snacks</option>
+            <option value="grains">Grains</option>
+            <option value="packagedFood">Packaged Food</option>
+            <option value="combo">Combo Offers</option>
           </select>
         </div>
 
@@ -144,6 +149,7 @@ const Navbar = () => {
           <NavLink onClick={() => setvisible(false)} to="/cart">Cart</NavLink>
         </div>
       </div>
+
     </div>
   )
 }
