@@ -7,6 +7,6 @@ body {
 
 
 #header {
-    font-family: 'Oswald', sans-serif;
-
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(18px, 4vw, 30px);
 }

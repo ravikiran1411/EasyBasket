@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import ProductDetails from './pages/ProductDetails'
 import Navbar from './components/Navbar'
 import { ToastContainer } from 'react-toastify'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/product/:productid' element={<ProductDetails />} />
       </Routes>
+      <Footer />
+
 
     </div>
   )
