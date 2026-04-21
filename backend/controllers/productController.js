@@ -90,4 +90,50 @@ const singleProduct = async (req,res) => {
     }
 }
 
-export {addProduct,removeProduct,listProduct,singleProduct}
+const addReview = async (req,res) =>{
+
+    try {
+        
+        const {id,rating,comment} = req.body;
+
+        const product = await productModel.findById(id)
+
+        if (!product) {
+            return res.json({success:false,message:"no product found."})
+        }
+
+        if (!product.reviews) {
+             product.reviews = [];
+        }
+
+        const viewed = product.reviews.find((item)=>item.userId===req.user.id)
+
+        if (viewed) {
+            return res.json({success:false,message:"already reviewed"})
+        }
+
+        const review = {
+            userId:req.user.id,
+            rating:Number(rating),
+            comment,
+            date: Date.now()
+        }
+
+        product.reviews.push(review)
+
+        product.numReviews=product.reviews.length
+
+        product.rating = product.reviews.reduce((acc,item)=>acc+item.rating,0)/product.reviews.length
+
+        await product.save();
+
+        res.json({success:true,message:"product review added."})
+
+
+    } catch (error) {
+        res.json({success:false,message:error.message})
+    }
+
+}
+
+export {addProduct,removeProduct,listProduct,singleProduct,addReview}

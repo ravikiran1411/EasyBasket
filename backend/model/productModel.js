@@ -12,6 +12,7 @@ const schema = new mongoose.Schema({
     reviews:[
     {
       userId:{type:String},
+      userName:{type:String},
       rating:{type:Number},
       comment:{type:String},
       date:{type:Number}

@@ -22,6 +22,9 @@ import available_icon from './available_icon.png'
 import checkout_icon from './checkout_icon.png'
 import ontime_delivery_icon from './ontime_delivery_icon.png'
 import price_icon from './price_icon.png'
+import dropdown_icon from './dropdown_icon.png'
+import star_icon from './star_icon.png'
+import star_dull_icon from './star_dull_icon.png'
 
 export const assets = {
     cart_icon,
@@ -48,5 +51,7 @@ export const assets = {
     available_icon,
     ontime_delivery_icon,
     price_icon,
-    
+    dropdown_icon,
+    star_dull_icon,
+    star_icon,
 } 

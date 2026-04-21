@@ -9,7 +9,7 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition duration-300 overflow-hidden group">
 
-      <Link to={`/products/${id}`} className="block">
+      <Link to={`/product/${id}`} className="block">
 
         <div className="relative overflow-hidden bg-gray-100">
 
@@ -18,7 +18,6 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
           <span className="absolute bottom-2 right-2 bg-white/90 backdrop-blur text-gray-700 text-xs px-3 py-1 rounded-full shadow z-10 capitalize">
             {category}
           </span>
-
 
           <img
             src={image?.[0]}
@@ -34,19 +33,13 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
           }
         </div>
 
-        {/* 📦 CONTENT */}
         <div className="p-4 flex flex-col gap-1">
-
-          {/* Brand */}
           <p className="text-xs text-gray-400 uppercase tracking-wide">
             {brand || "Generic"}
           </p>
-
-          {/* Name */}
           <p className="text-sm font-medium text-gray-800 line-clamp-2 leading-snug">
             {name}
           </p>
-
           <p className="text-xs text-gray-500">
             {quantity || "1 unit"}
           </p>

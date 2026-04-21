@@ -5,7 +5,6 @@ const Delivery_in10min = () => {
   return (
     <div className="mx-2 sm:mx-8 my-2 sm:my-5 md:my-8 lg:mx-14 flex flex-col gap-3">
 
-      {/* Main Banner */}
       <div className="relative overflow-hidden bg-[#1a7a4a] rounded-xl 
       px-3 py-4 sm:pl-12 sm:py-0  
       flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-8">
@@ -35,7 +34,6 @@ const Delivery_in10min = () => {
           </div>
         </div>
 
-        {/* Right image */}
         <div className="z-10 flex-shrink-0 hidden md:block">
           <img 
             src={assets.delivery} 
