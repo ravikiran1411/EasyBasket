@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
 import { DataContext } from '../context/DataContext.jsx'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
-  const { token, setToken } = useContext(DataContext)
+  const { token, setToken,search,setSearch,showSearch,setShowSearch} = useContext(DataContext)
   const [login, setLogin] = useState("Login")
+
   const navigate = useNavigate()
+  const location = useLocation()
 
   const loginSet = () => {
     if (token) {
@@ -23,9 +24,34 @@ const Navbar = () => {
       setToken("")
       localStorage.removeItem("token")
       navigate('/login')
-      // toast.success("Logged out") // optional
+      toast.success("Logged out")
     } else {
       navigate('/login')
+    }
+  }
+
+  const handleKeydown = (e) =>{
+
+    if(e.key==="Enter") {
+      if (location.pathname!=="/product") {
+        navigate(`/product`)
+      }
+    }
+
+  }
+
+  const handleSearchClick = () => {
+
+    if (location.pathname === "/product") {
+
+      setShowSearch(true)
+
+    } else {
+      navigate("/product")
+
+      setTimeout(() => {
+        setShowSearch(true)
+      }, 0)
     }
   }
 
@@ -36,44 +62,49 @@ const Navbar = () => {
   return (
     <div className="bg-white shadow-sm sticky top-0 z-50">
 
-      {/* Top Navbar */}
       <div className="flex justify-between items-center gap-3 sm:gap-5 px-4 sm:px-10 py-3">
 
         <div className="flex items-center justify-between gap-2 sm:gap-17">
           <Link to="/" className="text-md sm:text-2xl font-bold text-green-700">
             EasyBasket
           </Link>
+
           <div className='flex items-center gap-1 text-xs sm:text-sm cursor-pointer'>
             <img src={assets.map_icon} className='w-4 h-4' alt="" />
             <p className="hidden sm:block">Hyderabad</p>
           </div>
+
         </div>
 
-        {/* Search */}
         <div className="flex-1 mx-2 sm:mx-4 relative flex justify-end">
           <input
             type="text"
             placeholder="Search groceries..."
+            value={search}
+            onChange={(e)=>setSearch(e.target.value)}
+            onKeyDown={handleKeydown}
             className="hidden sm:block w-170 px-4 py-2 pr-10 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-green-400"
           />
-
-          {showSearch && (
-            <input
-              type="text"
-              placeholder="Search..."
-              className="absolute top-12 left-0 w-full px-4 py-2 border rounded outline-none sm:hidden bg-white shadow"
-            />
-          )}
-
           <img
-            onClick={() => setShowSearch(!showSearch)}
-            src={assets.search_icon}
-            className="w-5 sm:absolute sm:right-3 sm:top-1/2 sm:-translate-y-1/2 opacity-60 cursor-pointer"
-            alt=""
+          src={assets.search_icon}
+          onClick={ ()=> {
+            if (location.pathname!=='/product') {
+              navigate('/product')}
+            }}
+          className="w-5 sm:absolute sm:right-3 sm:top-1/2 sm:-translate-y-1/2 opacity-60 cursor-pointer"
+          alt=""
           />
         </div>
 
-        {/* UPDATED SECTION 🔥 */}
+        <img
+        src={assets.search_icon}
+        alt="search"
+        onClick={handleSearchClick}
+        className="w-5 h-5 cursor-pointer sm:hidden"
+        />
+
+       
+
         <div className='hidden md:flex items-center gap-3 mx-5'>
           <NavLink to="/product" className="hover:text-green-600 font-semibold">
             SHOP

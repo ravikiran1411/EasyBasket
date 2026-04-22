@@ -25,6 +25,7 @@ import price_icon from './price_icon.png'
 import dropdown_icon from './dropdown_icon.png'
 import star_icon from './star_icon.png'
 import star_dull_icon from './star_dull_icon.png'
+import back_icon from './p6_backicon.png'
 
 export const assets = {
     cart_icon,
@@ -54,4 +55,5 @@ export const assets = {
     dropdown_icon,
     star_dull_icon,
     star_icon,
+    back_icon,
 } 

@@ -8,21 +8,29 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const Category = () => {
 
   const navigate = useNavigate();
-  const {products,currency} = useContext(DataContext);
+  const {products,currency,search,setSearch,showSearch,setShowSearch} = useContext(DataContext);
   const [showFilter,setShowFilter] =useState(false);
   const [priceRange,setPriceRange] = useState('');
   const [product,setProduct] = useState([])
   const [sortType,setSortType] = useState("")
 
   const location = useLocation() 
-  const params = new URLSearchParams(location.search) 
-  const category = params.get("category") 
+  const params = new URLSearchParams(location.search)
+  const category = params.get("category")
 
   const productData = async () =>{
     
-    const filterProduct = category ? products.filter((item)=>item.category.toLowerCase()==category.toLowerCase()) : products
+    let pcopy=products.slice()
 
-    let pcopy=filterProduct.slice()
+    if (category) {
+      pcopy = pcopy.filter((item)=>item.category.toLowerCase()===category.toLowerCase())
+    }
+    
+    if(search) {
+      pcopy=pcopy.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase()))
+
+    }
+
 
     if(priceRange!=='') {
       if(priceRange ==='0-100' ) {
@@ -55,12 +63,41 @@ const Category = () => {
 
   useEffect(()=>{
     productData()
-  },[priceRange,products,category,sortType])
+  },[priceRange,products,category,sortType,search])
 
   
 
   return (
     <div className="p-4 sm:mx-5 flex flex-col md:flex-row md:gap-8"> 
+    {showSearch && (
+      <div className="fixed top-16 left-0 w-full px-4 z-[999] sm:hidden">
+        <div className="flex items-center bg-white rounded-xl shadow-lg px-4 py-3 gap-3">
+          <button
+          onClick={() => setShowSearch(false)}
+          className="text-lg text-gray-600"
+          >
+            <img src={assets.back_icon} />
+          </button>
+          
+          <input
+          type="search"
+          placeholder="Search groceries..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          autoFocus
+          className="flex-1 text-base outline-none"
+          />
+
+          {search && (
+            <button
+            onClick={() => setSearch("")}
+            className="text-gray-400 text-lg"
+            >X
+            </button>
+          )}
+        </div>
+      </div>
+    )}
 
         <div className='sm:min-w-1/4 h-fit sm:sticky sm:top-20 '> 
          <p className='text-xl my-3 flex items-center gap-2  ' onClick={()=>setShowFilter(!showFilter)}>Filters

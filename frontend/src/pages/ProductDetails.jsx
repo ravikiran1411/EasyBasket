@@ -65,11 +65,20 @@ const ProductDetails = () => {
       return toast.error("Give rating & comment")
     }
 
-    await axios.post(backend_url + "/api/product/addreview", {id: productData._id,rating,comment},{headers:{token:localStorage.getItem("token")}})
-    toast.success("Review added") 
-    setRating(0)
-    setComment("")
-    fetchProductData() 
+    const response = await axios.post(backend_url + "/api/product/addreview", {id: productData._id,rating,comment},{headers:{token:localStorage.getItem("token")}})
+    
+    if (response.data.success) {
+      
+      toast.success("Review added") 
+      setRating(0)
+      setComment("")
+      fetchProductData() 
+    }
+    else{
+      toast.error("already reviewed")
+    }
+
+    
 
   } catch (error) {
     toast.error(error.message)

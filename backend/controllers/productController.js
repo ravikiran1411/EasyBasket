@@ -106,7 +106,7 @@ const addReview = async (req,res) =>{
              product.reviews = [];
         }
 
-        const viewed = product.reviews.find((item)=>item.userId===req.user.id)
+        const viewed = product.reviews.find((item)=>item.userId.toString() === req.user.id.toString())
 
         if (viewed) {
             return res.json({success:false,message:"already reviewed"})
@@ -114,6 +114,7 @@ const addReview = async (req,res) =>{
 
         const review = {
             userId:req.user.id,
+            userName:req.user.name,
             rating:Number(rating),
             comment,
             date: Date.now()

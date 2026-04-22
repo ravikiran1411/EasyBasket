@@ -9,6 +9,8 @@ const DataContextProvider = (props) =>{
     const currency='₹';
     const [category,setCategory] = useState("all");
     const [products,setProducts] = useState([]);
+    const [search,setSearch] = useState("")
+    const [showSearch, setShowSearch] = useState(false)
 
     const [token,setToken]=useState("");
 
@@ -35,7 +37,7 @@ const DataContextProvider = (props) =>{
     },[])
 
     const data={
-        currency,backend_url,token,setToken,products,
+        currency,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,
 }
 
     return ( 
