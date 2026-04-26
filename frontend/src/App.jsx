@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
 import {Suspense,lazy } from 'react'
+import Cart from './pages/Cart'
 
 const ProductDetails = lazy(()=>import("./pages/ProductDetails"))
 const Category = lazy(()=>import("./pages/Category"))
@@ -22,6 +23,9 @@ const App = () => {
         <Route path='/product' element={<Suspense fallback={<div>Loading...</div>}><Category /></Suspense> } />
         <Route path='/login' element={<Login />} />
         <Route path='/product/:productid' element={<Suspense fallback={<div>Loading...</div>}> <ProductDetails /> </Suspense>} />
+        <Route path='/cart' element={<Cart />} />
+
+
       </Routes>
       <Footer />
 

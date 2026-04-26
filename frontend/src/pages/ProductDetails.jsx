@@ -10,14 +10,13 @@ import {assets} from '../assets/assets.js'
 const ProductDetails = () => {
 
   const { productid } = useParams()
-  const { products, currency,backend_url,token } = useContext(DataContext)
+  const { products, currency,backend_url,token,qty,setQty,addCart} = useContext(DataContext)
 
   const [productData, setProductData] = useState(null)
   const [image, setImage] = useState("")
   const [related, setRelated] = useState([])
 
   const roundedRating = Math.round(productData?.rating || 0)
-  const [qty,setQty]= useState(1)
 
   const [rating,setRating] = useState(0)
   const [comment, setComment] = useState("")
@@ -77,8 +76,6 @@ const ProductDetails = () => {
     else{
       toast.error("already reviewed")
     }
-
-    
 
   } catch (error) {
     toast.error(error.message)
@@ -190,16 +187,16 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex gap-3 mt-3">
-            <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+            <button onClick={()=>addCart({productId:productData._id,quantity:qty})} className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer ">
               Add to Cart
             </button>
 
           </div>
 
           <div className="mt-4 text-sm text-gray-500 flex flex-col gap-1">
-            <p>✔ Fresh quality guaranteed</p>
-            <p>✔ Delivered within 10–30 mins</p>
-            <p>✔ Easy return available</p>
+            <p> Fresh quality guaranteed</p>
+            <p> Delivered within 10-30 mins</p>
+            <p> Easy return available</p>
           </div>
 
         </div>
@@ -281,7 +278,6 @@ const ProductDetails = () => {
   </div>
 
 </div>
-
 
       {related.length > 0 && (
         <div className="mt-16">

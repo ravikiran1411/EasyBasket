@@ -5,7 +5,7 @@ import { DataContext } from '../context/DataContext.jsx'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
-  const { token, setToken,search,setSearch,showSearch,setShowSearch} = useContext(DataContext)
+  const { token, setToken,search,setSearch,showSearch,setShowSearch,cartData} = useContext(DataContext)
   const [login, setLogin] = useState("Login")
 
   const navigate = useNavigate()
@@ -54,6 +54,8 @@ const Navbar = () => {
       }, 0)
     }
   }
+
+  const cartCount =Object.values(cartData || {}).reduce((a,b)=>a+b,0)
 
   useEffect(() => {
     loginSet()
@@ -104,7 +106,6 @@ const Navbar = () => {
         />
 
        
-
         <div className='hidden md:flex items-center gap-3 mx-5'>
           <NavLink to="/product" className="hover:text-green-600 font-semibold">
             SHOP
@@ -133,8 +134,8 @@ const Navbar = () => {
           {/* Cart */}
           <Link to='/cart' className="relative">
             <img src={assets.cart_icon} className="w-8" alt="" />
-            <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
-              2
+            <span className="absolute -top-2 -right-2 bg-yellow-400 min-w-[18px] text-center text-black text-xs px-1 rounded-full">
+              {cartCount}
             </span>
           </Link>
 
