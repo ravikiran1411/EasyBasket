@@ -48,6 +48,7 @@ const cartUpdate = async (req,res) => {
         }
 
         user.cartData = cartData
+        user.markModified("cartData")
         await user.save()
 
         res.json({success:true,message:"cart updated"})
