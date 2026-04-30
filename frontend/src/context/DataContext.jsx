@@ -8,6 +8,7 @@ const DataContextProvider = (props) =>{
 
     const backend_url = import.meta.env.BACKEND_URL || "http://localhost:4000"
     const currency='₹';
+    const deliveryFee = 20;
     const [category,setCategory] = useState("all");
     const [products,setProducts] = useState([]);
     const [search,setSearch] = useState("")
@@ -101,7 +102,7 @@ const DataContextProvider = (props) =>{
     },[token])
 
     const data={
-        currency,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
+        currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
         updateCart,dataLoaded,
 }
 

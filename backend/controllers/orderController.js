@@ -7,6 +7,8 @@ const orderCOD = async (req,res) =>{
         
         const {address} = req.body
         const userId = req.user.id
+        console.log(userId);
+        
 
         if (!address) {
             return res.json({success:false,message:"address required."})
@@ -14,7 +16,8 @@ const orderCOD = async (req,res) =>{
 
         const user = await userModel.findById(userId)
 
-        const cart = user.cartData;
+        const cart = user.cartData;        
+        
 
         if (!cart || Object.keys(cart).length===0) {
             return res.json({success:false,message:"empty cart"})
@@ -25,6 +28,7 @@ const orderCOD = async (req,res) =>{
 
         for(const productId in cart) {
             const qty = cart[productId]
+
 
             const product = await productModel.findById(productId)
 
@@ -56,6 +60,8 @@ const orderCOD = async (req,res) =>{
             status:"Placed",
             date : Date.now()
         }
+        console.log("orderData:", JSON.stringify(orderData, null, 2))
+
 
         const order = new orderModel(orderData)
         await order.save();
@@ -92,11 +98,11 @@ const orderRazorPay = async (req,res) => {
     }
 }
 
-const allOrders = async (req,res) =>{
+const userOrders = async (req,res) =>{
     try {
         const userId = req.user.id
         
-        const OrderData = await orderModel.find({userId}).sort({date:-1})
+        const orderData = await orderModel.find({userId}).sort({date:-1})
 
         res.json({success:true,orderData})
 
@@ -107,4 +113,4 @@ const allOrders = async (req,res) =>{
     }
 }
 
-export {orderCOD,orderRazorPay,orderStripe,allOrders}
+export {orderCOD,orderRazorPay,orderStripe,userOrders}

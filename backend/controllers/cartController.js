@@ -40,7 +40,7 @@ const cartUpdate = async (req,res) => {
 
         let cartData = user.cartData
 
-        if (cartData[productId] <=0) {
+        if (quantity <=0) {
             delete cartData[productId]
         }
         else{

@@ -26,6 +26,9 @@ import dropdown_icon from './dropdown_icon.png'
 import star_icon from './star_icon.png'
 import star_dull_icon from './star_dull_icon.png'
 import back_icon from './p6_backicon.png'
+import bin_icon from './bin_icon.png'
+import razorpay_logo from './razorpay_logo.png'
+import stripe_logo from './stripe_logo.png'
 
 export const assets = {
     cart_icon,
@@ -56,4 +59,7 @@ export const assets = {
     star_dull_icon,
     star_icon,
     back_icon,
+    bin_icon,
+    razorpay_logo,
+    stripe_logo,
 } 

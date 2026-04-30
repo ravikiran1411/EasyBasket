@@ -159,7 +159,7 @@ const ProductDetails = () => {
               {productData.category}
             </span>
             {
-              productData.stock >0 ? <span className='text-sm text-gray-400 bg-gray-100'>In Stock</span> : <span>No stock</span>
+              productData.stock >0 ? <span className='p-2 text-sm text-gray-400 bg-gray-100'>In Stock</span> : <span>No stock</span>
             }
           </div>
 

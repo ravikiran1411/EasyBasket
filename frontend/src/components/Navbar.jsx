@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
 import { DataContext } from '../context/DataContext.jsx'
-
+import { toast } from 'react-toastify'
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
   const { token, setToken,search,setSearch,showSearch,setShowSearch,cartData} = useContext(DataContext)

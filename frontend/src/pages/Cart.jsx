@@ -1,28 +1,29 @@
 import React, { useContext, useState } from 'react'
 import { DataContext } from '../context/DataContext'
-
+import { assets } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 const Cart = () => {
 
-  const {products,cartData,qty,setQty,currency,token,updateCart,dataLoaded} = useContext(DataContext)
-  
-  if (!products.length) {
-    return <div>Loading...</div>
-  }
+  const {deliveryFee,products,cartData,qty,setQty,currency,token,updateCart,dataLoaded} = useContext(DataContext)
+  const navigate = useNavigate();
 
   if (!dataLoaded) {
     return <div>data loading...</div>
   }
-
-
+  
+  if (!products.length) {
+    return <div>Loading...</div>
+  }
 
   
   const cartItems = (products || []).filter(
   item => cartData && cartData[item._id]
 )
 
-  const total = cartItems.reduce((acc,item)=>{
+  const cartTotal = cartItems.reduce((acc,item)=>{
     return acc+item.price * cartData[item._id]
-  },0)
+  },0) 
+
 
   return (
     <div className="px-4 sm:px-10 lg:px-14 py-8">
@@ -51,7 +52,7 @@ const Cart = () => {
 
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-10">
 
                 <div className="flex items-center gap-3">
                   <p className="text-sm text-gray-600">Qty:</p>
@@ -62,10 +63,13 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {/* total */}
                 <p className="w-20 text-right">
-                  ₹ {item.price * cartData[item._id]}
+                  {currency} {item.price * cartData[item._id]}
                 </p>
+
+                <button onClick={() => updateCart(item._id, 0)}className="text-red-500 hover:text-red-700 text-xl mr-5 hover:shadow-md">
+                  <img src={assets.bin_icon} className='w-4' />
+                </button>
 
               </div>
 
@@ -74,14 +78,40 @@ const Cart = () => {
           ))}
 
           {/* TOTAL */}
-          <div className="mt-6 flex justify-between items-center border-t pt-4">
+          <div className="mt-6 flex items-end flex-col border-t pt-4">
+            <div className='flex flex-col gap-1 justify-start'>
+            
+            <div className='flex gap-10 justify-between'> 
+              <h2 className="text-lg font-semibold">Items Subtotal:</h2>
+              <p className="text-xl font-bold text-green-600">
+              {currency} {cartTotal}
+              </p>
+            </div>
 
-            <h2 className="text-lg font-semibold">Total</h2>
+            <div className='flex justify-between gap-10'>
+              <h2 className="text-lg font-semibold">Delivery Fee:</h2>
 
-            <p className="text-xl font-bold text-green-600">
-              ₹ {total}
-            </p>
+              <div className='flex gap-2 items-center'>
+                <p className="text-sm text-black line-through">
+                  {currency} {deliveryFee}
+                </p>
+                <p className='text-green-600 text-md font-semibold'>Free Delivery</p>
+              </div>
 
+            </div>
+            <hr></hr>
+
+            <div className='flex justify-between gap-3'>
+              <h2 className="text-lg font-semibold">Grand Total</h2>
+              <p className="text-xl font-bold text-green-600">
+              {currency} {cartTotal}
+              </p>
+            </div>
+
+            <div className='flex justify-center mt-2'>
+              <button onClick={()=>navigate('/placeorder')} className='border-green-800 bg-green-600 hover:bg-green-500 text-white shadow-md hover:shadow-lg p-1 px-2 rounded text-lg font-medium cursor-pointer'>Buy Now</button>
+              </div>
+            </div>
           </div>
 
         </div>

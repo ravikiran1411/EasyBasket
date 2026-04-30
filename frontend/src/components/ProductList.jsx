@@ -4,7 +4,7 @@ import { DataContext } from '../context/DataContext'
 
 function ProductList({ id, image, name, price, category, brand, quantity,bestSeller }) {
 
-  const { currency } = useContext(DataContext)
+  const { currency,addCart } = useContext(DataContext)
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition duration-300 overflow-hidden group">
@@ -52,7 +52,7 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
       </Link>
 
       <div className="px-4 pb-4">
-        <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm py-2.5 rounded-lg font-medium hover:scale-[1.03] active:scale-95 transition">
+        <button onClick={()=>addCart({productId:id,quantity:1})} className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm py-2.5 rounded-lg font-medium hover:scale-[1.03] active:scale-95 transition">
           Add to Cart
         </button>
       </div>
