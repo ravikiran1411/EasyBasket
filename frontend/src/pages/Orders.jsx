@@ -1,20 +1,21 @@
-import React from 'react'
-import { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../context/DataContext'
 import axios from 'axios'
-import { useEffect } from 'react'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
 
 const Orders = () => {
 
-  const {token,backend_url,currency} = useContext(DataContext)
-  const [orders,setOrders] = useState([])
+  const { token, backend_url, currency } = useContext(DataContext)
+  const [orders, setOrders] = useState([])
 
-  const fetchOrders = async () =>{
+  const fetchOrders = async () => {
     try {
-      const response = await axios.post(backend_url+'/api/order/userorders',{},{headers:{token}})
-      
+      const response = await axios.post(
+        backend_url + '/api/order/userorders',
+        {},
+        { headers: { token } }
+      )
+
       if (response.data.success) {
         setOrders(response.data.orderData)
       } else {
@@ -22,17 +23,17 @@ const Orders = () => {
       }
 
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message)      
+      console.log(error.message)
+      toast.error(error.message)
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchOrders()
-  },[])
+  }, [])
 
   return (
-    <div className="px-4 sm:px-10 lg:px-14 py-8">
+    <div className="px-4 sm:px-10 lg:px-14 py-8 bg-gray-50 min-h-screen">
 
       <h1 className="text-2xl font-semibold mb-6">My Orders</h1>
 
@@ -44,15 +45,16 @@ const Orders = () => {
 
           {orders.map((order, index) => (
 
-            <div key={index} className="border rounded-lg p-4 shadow-sm">
+            <div key={index} className="bg-white rounded-xl shadow-sm border p-5">
 
-              {/* HEADER */}
-              <div className="flex justify-between items-center mb-3 text-sm text-gray-600">
-                <p>
+              {/* 🔹 HEADER */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+
+                <p className="text-sm text-gray-500">
                   {new Date(order.date).toLocaleString()}
                 </p>
 
-                <span className={`px-3 py-1 rounded text-xs font-medium
+                <span className={`w-fit px-3 py-1 rounded-full text-xs font-medium
                   ${
                     order.status === "Delivered"
                       ? "bg-green-100 text-green-700"
@@ -63,32 +65,42 @@ const Orders = () => {
                 >
                   {order.status}
                 </span>
+
               </div>
 
-              {/* ITEMS */}
-              <div className="flex flex-col gap-3">
+              {/* 🔹 ITEMS */}
+              <div className="flex flex-col gap-4">
 
                 {order.items.map((item, i) => (
 
-                  <div key={i} className="flex items-center justify-between border-b pb-2">
+                  <div
+                    key={i}
+                    className="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+                  >
 
-                    <div className="flex items-center gap-3">
+                    {/* LEFT */}
+                    <div className="flex items-center gap-4">
 
                       <img
                         src={item.image}
-                        className="w-14 h-14 object-contain"
+                        alt={item.name}
+                        className="w-16 h-16 object-contain bg-white rounded-md border"
                       />
 
                       <div>
-                        <p className="font-medium text-sm">{item.name}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="font-medium text-sm text-gray-800">
+                          {item.name}
+                        </p>
+
+                        <p className="text-xs text-gray-500 mt-1">
                           Qty: {item.qty}
                         </p>
                       </div>
 
                     </div>
 
-                    <p className="text-sm font-medium">
+                    {/* RIGHT */}
+                    <p className="text-sm font-semibold text-green-600">
                       {currency} {item.price * item.qty}
                     </p>
 
@@ -98,14 +110,17 @@ const Orders = () => {
 
               </div>
 
-              {/* FOOTER */}
-              <div className="flex justify-between items-center mt-4">
+              {/* 🔹 FOOTER */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-5 pt-4 border-t gap-2">
 
-                <p className="font-bold text-green-600">
-                  Total: {currency} {order.amount}
+                <p className="font-bold text-lg text-gray-800">
+                  Total:{" "}
+                  <span className="text-green-600">
+                    {currency} {order.amount}
+                  </span>
                 </p>
 
-                <span className="text-xs bg-gray-100 px-3 py-1 rounded">
+                <span className="text-xs bg-gray-100 px-3 py-1 rounded-full w-fit">
                   {order.paymentMethod}
                 </span>
 
@@ -121,7 +136,6 @@ const Orders = () => {
 
     </div>
   )
-
 }
 
 export default Orders

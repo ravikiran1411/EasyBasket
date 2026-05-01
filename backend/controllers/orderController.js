@@ -113,4 +113,34 @@ const userOrders = async (req,res) =>{
     }
 }
 
-export {orderCOD,orderRazorPay,orderStripe,userOrders}
+const allOrders = async (req,res) => {
+    try {
+        
+        const orders = await orderModel.find({}).sort({date:-1})    
+
+        res.json({success:true,orders})
+
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success:false,message:error.message})
+        
+    }
+} 
+
+const updateOrderStatus = async (req,res) =>{
+    try {
+        
+        const {orderId,status} = req.body
+
+        await orderModel.findByIdAndUpdate(orderId,{status})
+
+        res.json({success:true,message:"order status changed.."})
+
+    } catch (error) {
+        console.log(error.message);
+        res.json({success:false,message:error.message})
+    }
+}
+
+export {orderCOD,orderRazorPay,orderStripe,userOrders,allOrders,updateOrderStatus} 

@@ -17,6 +17,8 @@ const adminAuth =async (req,res,next) =>{
         if(typeof decoded !== "object" || !decoded.email ) {
 
             return res.json({success:false,message:"invalid token"})
+            console.log("decoded");
+            
         }
 
         if(decoded.email !== process.env.ADMIN_EMAIL) {

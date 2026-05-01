@@ -14,8 +14,6 @@ const List = ({token}) => {
     try {
 
       const response = await axios.post(backendUrl+'/api/product/list')
-
-      console.log(response.data);
       
       if (response.data.success) {
         setList(response.data.products)
