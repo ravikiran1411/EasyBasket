@@ -29,6 +29,7 @@ import back_icon from './p6_backicon.png'
 import bin_icon from './bin_icon.png'
 import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
+import logo from './logo.png'
 
 export const assets = {
     cart_icon,
@@ -62,4 +63,5 @@ export const assets = {
     bin_icon,
     razorpay_logo,
     stripe_logo,
+    logo,
 } 
