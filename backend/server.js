@@ -17,7 +17,8 @@ const app= express()
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://easybasket.vercel.app"
+  "https://easybasket.vercel.app",
+  "https://easybasket-adminpanel.vercel.app/"
 ];
 
 app.use(cors({
@@ -38,7 +39,6 @@ connectCloudinary()
 
 //middleware
 app.use(express.json()) 
-app.use(cors()) 
 
 
 //endpoints
