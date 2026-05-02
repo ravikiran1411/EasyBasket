@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../context/DataContext'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -7,17 +7,9 @@ import axios from 'axios'
 import { assets } from '../assets/assets'
 const PlaceOrder = () => {
 
-    const {token,deliveryFee,currency,backend_url,cartData,setCartData,products} = useContext(DataContext)
+    const {token,deliveryFee,currency,backend_url,cartData,setCartData,products,fetchProfile,form,setForm} = useContext(DataContext)
     const navigate = useNavigate()
     const [payment,setPayment] = useState("COD")
-
-    const [form,setForm] = useState({
-        name:"",
-        phone:"",
-        address:"",
-        city:"",
-        pincode:"",
-    })
 
     const handleChange = (e) => {
         setForm({...form,[e.target.name]:e.target.value})
@@ -39,8 +31,14 @@ const PlaceOrder = () => {
             switch (payment) {
 
                 case "COD": {
-                        console.log("order first");
-
+                    
+                    await axios.post(backend_url + "/api/profile/update",{
+                        name: form.name,
+                        phone: form.phone,
+                        address: form.address,
+                        city: form.city,
+                        pincode: form.pincode 
+                    },{},{headers:{token}})
 
                     const response = await axios.post(backend_url+'/api/order/codorder',{address:form},{headers:{token}})
                     console.log("order second");
@@ -57,7 +55,6 @@ const PlaceOrder = () => {
                     else{
                         toast.error(response.data.message)
                         console.log("order now");
-
                     }
 
                     break;
@@ -86,6 +83,10 @@ const PlaceOrder = () => {
         return acc
     },0)
 
+
+    useEffect(()=>{
+        fetchProfile()
+    },[])
 
   return (
     <div className="px-4 sm:px-10 lg:px-14 py-8">

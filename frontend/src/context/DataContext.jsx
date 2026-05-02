@@ -16,6 +16,36 @@ const DataContextProvider = (props) =>{
     const [qty,setQty]= useState(1)
     const [cartData,setCartData] = useState({})
     const [dataLoaded,setDataLoaded] = useState(false)
+
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        pincode: ""
+    })
+
+    const fetchProfile = async () => { 
+        try {
+            const res = await axios.post(backend_url + "/api/profile/getprofile",{},{ headers: { token }})
+            
+            if (res.data.success) {
+                const user = res.data.user
+                setForm({
+                    name: user.name || "",
+                    email:user.email,
+                    phone: user.phone || "",
+                    address: user.address || "",
+                    city: user.city || "",
+                    pincode: user.pincode || ""
+                })
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    
  
     const [token,setToken] = useState(localStorage.getItem("token") || "" ) 
 
@@ -103,7 +133,7 @@ const DataContextProvider = (props) =>{
 
     const data={
         currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
-        updateCart,dataLoaded,
+        updateCart,dataLoaded,form,setForm,fetchProfile
 }
 
     return ( 

@@ -9,6 +9,7 @@ import {Suspense,lazy } from 'react'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Orders from './pages/Orders'
+import Profile from './pages/Profile'
 
 const ProductDetails = lazy(()=>import("./pages/ProductDetails"))
 const Category = lazy(()=>import("./pages/Category"))
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/cart' element={<Suspense fallback={<div>Loading...</div>}> <Cart /> </Suspense>} />
         <Route path='/placeorder' element={<Suspense fallback={<div>Loading...</div>}> <PlaceOrder /> </Suspense>} />
         <Route path='/orders' element={<Suspense fallback={<div>Loading...</div>}> <Orders /> </Suspense>} />
+        <Route path='/profile' element={<Suspense fallback={<div>Loading...</div>}> <Profile /> </Suspense>} />
 
       </Routes>
       <Footer />
