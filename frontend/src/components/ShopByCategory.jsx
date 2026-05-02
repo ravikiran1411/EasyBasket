@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets.js";
 
 const categories = [
-  { name: "Fruits", image: assets.category1, value: "fruits" },
-  { name: "Vegetables", image: assets.category2 , value: "vegetables" },
-  { name: "Snacks", image: assets.category3 , value: "snacks" },
-  { name: "Dairy", image:assets.category6 , value: "dairyProducts" },
-  { name: "Grains", image:assets.category7 , value: "grains" },
-  { name: "Packaged", image:assets.category5 , value: "packagedFood" },
-  { name: "Dry Fruits", image:assets.category4 , value: "dryFruits" },
-  { name: "Combo", image:assets.category8 , value: "combo" },
+  { name: "Fruits", image: assets.categ1, value: "fruits" },
+  { name: "Vegetables", image: assets.categ2 , value: "vegetables" },
+  { name: "Snacks", image: assets.categ3 , value: "snacks" },
+  { name: "Dairy", image:assets.categ6 , value: "dairyProducts" },
+  { name: "Grains", image:assets.categ7 , value: "grains" },
+  { name: "Packaged", image:assets.categ5 , value: "packagedFood" },
+  { name: "Dry Fruits", image:assets.categ4 , value: "dryFruits" },
+  { name: "Combo", image:assets.categ8 , value: "combo" },
 ];
 
 const ShopByCategory = () => {

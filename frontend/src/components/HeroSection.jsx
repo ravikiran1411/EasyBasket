@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets.js";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
 
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
 
   const slides = [
     {
       title: "Fresh Groceries Delivered ",
       desc: "Get fresh fruits & vegetables at your doorstep",
-      image: assets.hero1
+      image: assets.hero1_image
     },
     {
       title: "Combo Offers ",
       desc: "Save more with our special combo packs",
-      image: assets.hero2
+      image: assets.hero2_image
     },
     {
       title: "All Groceries Available ",
       desc: "Everything you need in one place",
-      image: assets.hero3
+      image: assets.hero3_
     }
   ];
 
@@ -56,7 +58,9 @@ const HeroSection = () => {
                   {slide.desc}
                 </p>
 
-                <button className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
+                
+
+                <button onClick={()=>navigate('/product')} className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
                   Shop Now
                 </button>
               </div>
@@ -91,7 +95,7 @@ const HeroSection = () => {
                   {slide.desc}
                 </p>
 
-                <button className="mt-3 md:mt-5 bg-green-600 px-4 py-2 md:px-6 md:py-3 rounded-md">
+                <button onClick={()=>navigate('/product?category=combo')} className="mt-3 md:mt-5 bg-green-600 px-4 py-2 md:px-6 md:py-3 rounded-md">
                   Explore Combos
                 </button>
               </div>
@@ -112,7 +116,7 @@ const HeroSection = () => {
                   {slide.desc}
                 </p>
 
-                <button className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
+                <button onClick={()=>navigate('/product')} className="mt-3 md:mt-5 bg-green-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-md">
                   Shop Now
                 </button>
               </div>

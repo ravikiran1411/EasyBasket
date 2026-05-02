@@ -9,7 +9,7 @@ const Delivery_in10min = () => {
       px-3 py-4 sm:pl-12 sm:py-0  
       flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-8">
 
-        <div className="flex flex-col gap-2 sm:gap-3 z-10 max-w-sm">
+        <div className="flex flex-col gap-2 sm:gap-3 z-10 max-w-sm ">
 
           <div className="flex items-center gap-2 bg-white/15 rounded-full px-3 py-1 w-fit">
             <span className="w-2 h-2 rounded-full bg-[#7effc0]" />
@@ -34,9 +34,9 @@ const Delivery_in10min = () => {
           </div>
         </div>
 
-        <div className="z-10 flex-shrink-0 hidden md:block">
+        <div className="z-10 shrink-0 hidden md:block">
           <img 
-            src={assets.delivery} 
+            src={assets.deliveryy} 
             alt="delivery" 
             className="w-28 sm:w-100 object-contain" 
           />
