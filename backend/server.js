@@ -15,8 +15,19 @@ import profileRouter from './routes/profileRoute.js'
 //app config
 const app= express()
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://easybasket.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://easybasket.vercel.app/",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked"));
+    }
+  },
   credentials: true
 }));
 
