@@ -14,6 +14,12 @@ import profileRouter from './routes/profileRoute.js'
 
 //app config
 const app= express()
+
+app.use(cors({
+  origin: "https://easybasket.vercel.app/",
+  credentials: true
+}));
+
 const port = process.env.PORT || 4000
 connectDB() 
 connectCloudinary() 
