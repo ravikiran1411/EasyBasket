@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 export const DataContext=createContext()
 
 const DataContextProvider = (props) =>{
+    console.log(import.meta.env.VITE_BACKEND_URL);
+    
 
     const backend_url = import.meta.env.VITE_BACKEND_URL
+
     const currency='₹';
     const deliveryFee = 20;
     const [category,setCategory] = useState("all");
