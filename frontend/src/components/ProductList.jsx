@@ -21,6 +21,7 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
 
           <img
             src={image?.[0]}
+            loading='lazy'
             alt={name}
             className="w-full h-56 object-cover group-hover:scale-110 transition duration-500"
           />

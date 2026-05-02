@@ -81,6 +81,7 @@ const HeroSection = () => {
 
               <img 
                 src={slide.image} 
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
 
@@ -124,6 +125,7 @@ const HeroSection = () => {
               <div className="mt-3 md:mt-0">
                 <img 
                   src={slide.image} 
+                  loading="lazy"
                   className="w-[200px] md:w-[450px] lg:w-[550px]" 
                 />
               </div>

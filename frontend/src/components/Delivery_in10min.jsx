@@ -37,6 +37,7 @@ const Delivery_in10min = () => {
         <div className="z-10 shrink-0 hidden md:block">
           <img 
             src={assets.deliveryy} 
+            loading="lazy"
             alt="delivery" 
             className="w-28 sm:w-100 object-contain" 
           />
