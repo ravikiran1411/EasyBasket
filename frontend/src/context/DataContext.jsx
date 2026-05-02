@@ -6,7 +6,7 @@ export const DataContext=createContext()
 
 const DataContextProvider = (props) =>{
 
-    const backend_url = import.meta.env.BACKEND_URL || "http://localhost:4000"
+    const backend_url = import.meta.env.VITE_BACKEND_URL
     const currency='₹';
     const deliveryFee = 20;
     const [category,setCategory] = useState("all");
