@@ -18,7 +18,7 @@ const app= express()
 const allowedOrigins = [
   "http://localhost:5173",
   "https://easybasket.vercel.app",
-  "https://easybasket-adminpanel.vercel.app/"
+  "https://easybasket-adminpanel.vercel.app"
 ];
 
 app.use(cors({
