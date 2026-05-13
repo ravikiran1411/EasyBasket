@@ -1,5 +1,5 @@
-import dontenv from 'dotenv'
-dontenv.config()
+import 'dotenv/config'
+
 
 import express from 'express'
 import cors from 'cors'
@@ -17,6 +17,7 @@ const app= express()
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "https://easybasket.vercel.app",
   "https://easybasket-adminpanel.vercel.app"
 ];
@@ -38,7 +39,16 @@ connectCloudinary()
 
 
 //middleware
-app.use(express.json()) 
+
+app.use((req,res,next)=>{
+  if(req.originalUrl==="/api/order/webhook") {
+    next()
+  }
+  else{
+    express.json()(req,res,next);
+  }
+})
+
 
 
 //endpoints
@@ -54,5 +64,8 @@ app.get('/',(req,res)=>{
     
 })
 
-app.listen(port)
+app.listen(port,()=>{
+  console.log("server running..");
+  
+})
 

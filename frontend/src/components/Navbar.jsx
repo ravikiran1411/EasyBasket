@@ -62,14 +62,12 @@ const Navbar = () => {
             <img src={assets.logo} className='h-7 sm:h-10 ' />
           </Link>
 
-          {/* 👉 mobile lo hide */}
           <div className='hidden sm:flex flex-col sm:flex-row items-center gap-1 text-xs sm:text-sm cursor-pointer'>
             <img src={assets.map_icon} className='w-4 h-4' alt="" />
             <p className='text-xm'>Hyderabad</p>
           </div>
         </div>
 
-        {/* SEARCH */}
         <div className="flex-1 mx-2 sm:mx-4 relative flex justify-end">
           <input
             type="text"

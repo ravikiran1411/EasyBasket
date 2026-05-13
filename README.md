@@ -22,7 +22,7 @@ EasyBasket is a modern full-stack grocery shopping web application where users c
 * Add to Cart & Update Quantity
 * Place Orders
 * View Profile Details
-* ⭐ Product Ratings & Reviews
+* Product Ratings & Reviews
 * Persistent Cart (after refresh)
 
 ---
@@ -34,7 +34,7 @@ EasyBasket is a modern full-stack grocery shopping web application where users c
 * Upload Product Images (Cloudinary)
 * Manage Products (CRUD)
 * View Orders
-* Update Order Status (Pending → Delivered)
+* Update Order Status (Placed → Delivered)
 
 ---
 
@@ -159,11 +159,6 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
-
-(Add your screenshots here for better presentation)
-
----
 
 ## 📌 Future Improvements
 
