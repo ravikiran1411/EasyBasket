@@ -10,6 +10,7 @@ import productRouter from './routes/productRoutes.js'
 import cartRouter from './routes/cartRoutes.js'
 import orderRouter from './routes/orderRoute.js'
 import profileRouter from './routes/profileRoute.js'
+import storeRouter from './routes/storeRoute.js'
 
 
 //app config
@@ -49,14 +50,13 @@ app.use((req,res,next)=>{
   }
 })
 
-
-
 //endpoints
 app.use('/api/user',userRoutes)
 app.use('/api/product',productRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/order',orderRouter)
 app.use('/api/profile',profileRouter)
+app.use('/api/stores',storeRouter)
 
 app.get('/',(req,res)=>{
     res.send("api working..")

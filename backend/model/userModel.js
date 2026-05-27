@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     address:{type:String,default:""},
     city:{type:String,default:""},
     pincode:{type:String,default:""},
-    cartData:{type:Object,default:{}} 
+    cartData:{type:Object,default:{}},
+    accountType:{type:String,enum:["user","vender"],default:"user"}
 },{minimize:false}) 
 
 const userModel = mongoose.models.user || mongoose.model("user",userSchema); 

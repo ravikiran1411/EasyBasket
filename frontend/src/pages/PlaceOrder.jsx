@@ -62,10 +62,8 @@ const PlaceOrder = () => {
 
                 case 'STRIPE' :
                     const response = await axios.post(backend_url+"/api/order/stripe",{address:form},{headers:{token}})
-                    console.log(response.data);
                     
                     window.location.href=response.data.url;
-                    
 
                     break
                 

@@ -23,7 +23,11 @@ const schema = new mongoose.Schema({
     stock:{type:Number,required:true},
     bestSeller:{type:Boolean},
     date:{type:Number,required:true},
-
+    store:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"store",
+      required:true,
+    }
 })
 
 const productModel = mongoose.models.product || mongoose.model("product",schema)
