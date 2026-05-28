@@ -1,11 +1,18 @@
 import productModel from "../model/productModel.js"
 import { v2 as cloudinary } from "cloudinary";
+import store from "../model/storeModel.js";
 
 const addProduct = async (req,res) => {
 
     try {
         
         const {name,description,price,quantity,category,brand,stock,bestSeller} = req.body
+
+        const storeData = await store.findOne({owner:req.user.id})
+
+        if (!storeData) {
+            return res.json({success:false,message:"store not found.."})
+        }
 
         const image1 = req.files.image1 && req.files.image1[0]
         const image2 = req.files.image2 && req.files.image2[0]
@@ -37,6 +44,7 @@ const addProduct = async (req,res) => {
             numReviews: 0,
             stock : Number(stock),
             bestSeller: bestSeller === "true" ? true : false,
+            store: storeData._id,
             date:Date.now()
         }
 
@@ -48,30 +56,43 @@ const addProduct = async (req,res) => {
     } catch (error) {
         res.json({success:false,message:error.message})
     }
-    
 }
 
 const removeProduct = async (req,res) => {
 
     try {
         
-        await productModel.findByIdAndDelete(req.body.id)
+        const product = await productModel.findById(req.body.id)
 
-        res.json({success:true,message:"product removed."})
+        if (!product) {
+            return res.status(404).json({success:false,message:"product not found"})
+        }
+
+        const storeData = await store.findOne({owner:req.user.id})
+
+        if (!storeData) {
+            return res.status(404).json({success:false,message:"store not found"})
+        }
+
+        if (product.store.toString()  !== storeData._id.toString()) {
+            return res.status(403).json({success:false,message:"not autharozied"})
+        }
+
+        await productModel.findByIdAndDelete(req.body.id)
+        res.status(200).json({success:true,message:"product deleted succesfully"})
 
     } catch (error) {
 
         res.json({success:false,message:error.message})
     }
-
 }
 
 const listProduct = async (req,res) => {
 
     try {
-        const products = await productModel.find({})
+        const products = await productModel.find({}).populate("store")
 
-        res.json({success:true,products})
+        res.status(200).json({success:true,products})
 
     } catch (error) {
         res.json({success:false,message:error.message})
@@ -82,11 +103,75 @@ const singleProduct = async (req,res) => {
 
     try {
         
-        const product = await productModel.findById(req.body.id)
+        const product = await productModel.findById(req.body.id).populate("store")
+
+        if(!product){
+            return res.status(404).json({success: false,message: "Product not found"});
+        }
+
         res.json({success:true,product})
 
     } catch (error) {
         res.json({success:false,message:error.message})
+    }
+}
+
+const allVendorProducts = async (req,res) =>{
+    try {
+        
+        const storeData = await store.findOne({owner:req.user.id})
+
+        if (!storeData) {
+            return res.status(404).json({success:false,message:"store not found."})
+        }
+
+        const products = await productModel.find({store:storeData._id})
+
+        res.status(200).json({success:true,products})
+
+    } catch (error) {
+
+        res.status(500).json({success:false,message:error.message});
+
+    }
+}
+
+const updateVendarProducts = async (req,res) => {
+    try {
+        const {id,name,description,price,quantity,category,brand,stock,bestSeller} = req.body
+        const product = await productModel.findById(id)
+        if (!product) {
+            return res.status(404).json({success:false,message:"product not found"});
+        }
+
+        const storeData = await store.findOne({owner:req.user.id})
+
+        if (!storeData) {
+            return res.status(404).json({success:false,message:"store not found"});
+        }
+
+        if (product.store.toString() !== storeData._id.toString()) {
+            return res.status(403).json({success:false,message:"unauthorized"});
+        }
+
+        if (name) product.name = name;
+        if (description) product.description = description;
+        if (price) product.price = Number(price);
+        if (quantity) product.quantity = quantity;
+        if (category) product.category = category;
+        if (brand) product.brand = brand;
+        if (stock) product.stock = Number(stock);
+
+        if (bestSeller!==undefined) {
+            product.bestSeller==="true" ? "true" : "false";
+        }
+
+        await product.save();
+
+        res.status(200).json({success:true,message:"product updated successfully",product});
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message});
     }
 }
 
@@ -137,4 +222,4 @@ const addReview = async (req,res) =>{
 
 }
 
-export {addProduct,removeProduct,listProduct,singleProduct,addReview}
+export {addProduct,removeProduct,listProduct,singleProduct,addReview,allVendorProducts,updateVendarProducts}
