@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
-  const { token, setToken,search,setSearch,showSearch,setShowSearch,cartData} = useContext(DataContext)
+  const { token, setToken,search,setSearch,showSearch,setShowSearch,cartData,userData,setUserData} = useContext(DataContext)
   const [login, setLogin] = useState("Login")
 
   const navigate = useNavigate()
@@ -136,9 +136,24 @@ const Navbar = () => {
             />
 
             <div className="group-hover:block hidden absolute right-0 pt-4">
-              <div className="flex flex-col gap-2 w-36 py-3 px-3 bg-white shadow-md rounded">
+              <div className="flex flex-col gap-2 w-44 py-3 px-3 bg-white shadow-md rounded">
                 <p onClick={() => navigate('/profile')} className="cursor-pointer hover:text-green-600">My Profile</p>
                 <p onClick={() => navigate('/orders')} className="cursor-pointer hover:text-green-600">Orders</p>
+                {
+                  userData && userData.accountType==="user" && (
+                    <p onClick={()=> navigate('/create-store')} className='cursor-pointer hover:text-green-600'>
+                      Become Vendor
+                    </p>
+                  )
+                }
+
+                {
+                  userData && userData.accountType === "vendor" && (
+                    <p onClick={()=>navigate('/vendor/dashboard')} className='cursor-pointer hover:text-green-600' >Vendor dashboard</p>
+                  )
+                }
+                <hr className='text-green-400/60' />
+
                 <p onClick={handleLogin} className="cursor-pointer hover:text-green-600">{login}</p>
               </div>
             </div>

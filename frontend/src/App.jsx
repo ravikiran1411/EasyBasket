@@ -14,7 +14,12 @@ const Cart = lazy(()=>import("./pages/Cart"))
 const PlaceOrder = lazy(()=>import("./pages/PlaceOrder"))
 const Orders = lazy(()=>import("./pages/Orders"))
 const Profile = lazy(()=>import("./pages/Profile"))
-
+const CreateStore = lazy(()=>import("./pages/CreateStore"))
+const VendorDashboard = lazy(()=>import("./pages/VendorDashboard"))
+const AddProduct = lazy(()=>import("./pages/AddProduct"))
+const MyProducts = lazy(()=>import("./pages/MyProducts"))
+const StoreSettings = lazy(()=>import("./pages/StoreSettings"))
+const EditProduct = lazy(()=>import("./pages/EditProduct"))
 
 const App = () => {
 
@@ -30,6 +35,7 @@ const App = () => {
       </div>
       }>
         <Routes>
+          
           <Route path='/' element={<Home />} /> 
           <Route path='/product' element={<Category />} />
           <Route path='/login' element={<Login />} />
@@ -38,6 +44,12 @@ const App = () => {
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/orders' element={<Orders />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/create-store' element={<CreateStore/>} />
+          <Route path='/vendor/dashboard' element={<VendorDashboard/>} />
+          <Route path='/vendor/add-product' element={<AddProduct/>} />
+          <Route path="/vendor/products" element={<MyProducts/>} />
+          <Route path='/vendor/store-settings' element={<StoreSettings/>}/>
+          <Route path='/vendor/edit-product/:id' element={<EditProduct />} />
 
         </Routes>
       </Suspense>

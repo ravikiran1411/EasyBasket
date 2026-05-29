@@ -5,6 +5,10 @@ const createVendorAccount = async (req,res) =>{
     try {
         
         const {storeName,address,latitude,longitude,deliveryRadius} = req.body;
+
+        if (!storeName || !address || !latitude || !longitude) {
+            return res.json({ success:false,message:"all fields are required"})
+        }
         
         const isExist = await store.findOne({owner:req.user.id});
 
@@ -12,20 +16,20 @@ const createVendorAccount = async (req,res) =>{
             return res.json({success:false,message:"vender already exist"});
         }
 
-        const storeData = store.create({
+        const storeData = await store.create({
             storeName,
             owner:req.user.id,
             address,
             location:{
-                type:"Pointer",
-                coordinates:[latitude,longitude],
+                type:"Point",
+                coordinates:[longitude,latitude],
             },
             deliveryRadius,
         });
 
         await userModel.findByIdAndUpdate(req.user.id,{accountType:"vendor"})
 
-        res.json({success:true,message:"vendor store created.."},storeData)
+        res.json({success:true,message:"vendor store created..",storeData})
 
     } catch (error) {
         res.json({success:false,message:error.message})
@@ -34,7 +38,9 @@ const createVendorAccount = async (req,res) =>{
 
 
 const updateStore = async (req,res) =>{
+
     try {
+
         const {storeName,address,latitude,longitude,deliveryRadius} = req.body;
 
         const storeData = await store.findOne({owner:req.user.id});
@@ -51,8 +57,8 @@ const updateStore = async (req,res) =>{
         }
         if (latitude && longitude) {
             storeData.location={
-                type:"Pointer",
-                coordinates:[latitude,longitude]
+                type:"Point",
+                coordinates:[longitude,latitude]
             }
         }
         if (deliveryRadius) {
@@ -70,5 +76,23 @@ const updateStore = async (req,res) =>{
     }
 }
 
+const getMyStore = async (req,res)=>{
 
-export {createVendorAccount,updateStore}
+    try {
+
+        const storeData = await store.findOne({owner:req.user.id});
+
+        if(!storeData){
+            return res.status(404).json({success:false,message:"Store not found"});
+        }
+
+        res.status(200).json({success:true,storeData});
+
+    } catch(error){
+
+        res.status(500).json({success:false,message:error.message});
+    }
+}
+
+
+export {createVendorAccount,updateStore,getMyStore}

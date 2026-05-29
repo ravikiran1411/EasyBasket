@@ -1,23 +1,39 @@
+import userModel from "../model/userModel.js";
 
-const vendarAuth = async (req,res,next) =>{
+const vendarAuth = async (req,res,next) => {
+
     try {
+
+        const user = await userModel.findById(req.user.id);
         
-        if (!req.user) {
-            return res.json({success:false,message:"please login.."})
+
+        if (!user) {
+            return res.status(404).json({
+                success:false,
+                message:"user not found"
+            });
         }
 
-        if (req.user.accountType!=="vendor") {
-            return res.json({success:false,message:"access denied.."})
+        if (user.accountType !== "vendor") {
+            return res.status(403).json({
+                success:false,
+                message:"access denied"
+            });
         }
 
         next();
 
     } catch (error) {
 
-        res.json({success:false,message:"something wrong in vendar middleware"})
         console.log(error.message);
 
+        res.status(500).json({
+            success:false,
+            message:error.message
+        });
+
     }
+
 }
 
-export default vendarAuth
+export default vendarAuth;

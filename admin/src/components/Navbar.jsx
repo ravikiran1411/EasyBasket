@@ -1,47 +1,89 @@
-import React from 'react'
-import { assets } from '../assets/assets'
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { assets } from "../assets/assets";
+import { NavLink } from "react-router-dom";
 
-const Navbar = ({setToken}) => {
-
-  const handleLogout = () =>{
-
-    setToken("")
-
-  }
+const Navbar = ({ setToken }) => {
+  const handleLogout = () => {
+    setToken("");
+  };
 
   return (
-    <div className='w-full mt-5 '>
-        <div className='mx-1 sm:mx-8 flex justify-between'>
-            <div>
-                <img src={assets.adminpanel_logo} className='w-25 h-15 sm:w-50 sm:h-40 ' />
 
-            </div>
+    <div className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+         <div className="flex items-center justify-between h-16">
+          <img
+          src={assets.adminpanel_logo}
+          alt=""
+          className="w-35 mt-10 sm:mt-15 sm:w-70 object-contain"
+          />
 
-            <div className='flex sm:gap-15 pt-5 '>
-              <NavLink to='/' className='flex gap-2 cursor-pointer'>
-                <img src={assets.add_icon} className='w-5 h-5' /> 
-                <p className='text-sm font-semibold'>ADD ITEMS</p>
-              </NavLink>
+          <div className="hidden md:flex items-center gap-8">
 
-              <NavLink to='/list' className='flex gap-2 cursor-pointer'>
-                <img src={assets.order_icon} className='w-5 h-5 ' /> 
-                <p className='text-sm font-semibold'>LIST ITEMS</p>
-              </NavLink>
-             
-             <NavLink to='/orders' className='flex gap-2 cursor-pointer'>
-                <img src={assets.order_icon} className='w-5 h-5 ' /> 
-                <p className='text-sm font-semibold'>ORDERS</p>
-              </NavLink>
-             
-            </div>
-            <div className='pt-5 mr-5 -mt-3'>
-              <button onClick={handleLogout} className='bg-green-300  font-semibold text-lg p-2 px-2 rounded-md'>LOGOUT</button>
-            </div>
+          <NavLink
+            to="/list"
+            className={({ isActive }) => `${isActive ? "text-green-600" : "text-gray-600"}font-medium hover:text-green-600 transition`}
+          >
+          List Items
+          </NavLink>
 
-        </div>
+          <NavLink
+            to="/orders"
+            className={({ isActive }) =>`${isActive ? "text-green-600" : "text-gray-600"}font-medium hover:text-green-600 transition`}
+          >
+          Orders
+          </NavLink>
+
+          <button onClick={handleLogout} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+          Logout
+          </button>
+
+      </div>
+
+      <button
+        onClick={handleLogout}
+        className="md:hidden bg-green-500 text-white px-3 py-2 rounded-md text-sm"
+      >
+        Logout
+      </button>
+
     </div>
-  )
-}
 
-export default Navbar
+    <div className="md:hidden flex border-t">
+
+      <NavLink
+        to="/list"
+        className={({ isActive }) =>
+          `flex-1 text-center py-3 font-medium ${
+            isActive
+              ? "text-green-600 border-b-2 border-green-600"
+              : "text-gray-500"
+          }`
+        }
+      >
+        Products
+      </NavLink>
+
+      <NavLink
+        to="/orders"
+        className={({ isActive }) =>
+          `flex-1 text-center py-3 font-medium ${
+            isActive
+              ? "text-green-600 border-b-2 border-green-600"
+              : "text-gray-500"
+          }`
+        }
+      >
+        Orders
+      </NavLink>
+
+    </div>
+
+  </div>
+
+</div>
+
+  );
+};
+
+export default Navbar;

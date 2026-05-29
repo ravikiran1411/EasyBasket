@@ -139,7 +139,11 @@ const allVendorProducts = async (req,res) =>{
 const updateVendarProducts = async (req,res) => {
     try {
         const {id,name,description,price,quantity,category,brand,stock,bestSeller} = req.body
+
         const product = await productModel.findById(id)
+        console.log(product);
+        
+        
         if (!product) {
             return res.status(404).json({success:false,message:"product not found"});
         }
@@ -163,8 +167,10 @@ const updateVendarProducts = async (req,res) => {
         if (stock) product.stock = Number(stock);
 
         if (bestSeller!==undefined) {
-            product.bestSeller==="true" ? "true" : "false";
+            product.bestSeller==="true" ? true : false;
         }
+        console.log();
+        
 
         await product.save();
 
@@ -222,4 +228,31 @@ const addReview = async (req,res) =>{
 
 }
 
-export {addProduct,removeProduct,listProduct,singleProduct,addReview,allVendorProducts,updateVendarProducts}
+const adminRemoveProduct = async(req,res)=>{
+    try {
+
+        const product = await productModel.findById(req.body.id)
+
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"product not found"
+            })
+        }
+
+        await productModel.findByIdAndDelete(req.body.id)
+
+        res.status(200).json({
+            success:true,
+            message:"product deleted"
+        })
+
+    } catch(error){
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+
+export {addProduct,removeProduct,listProduct,singleProduct,addReview,allVendorProducts,updateVendarProducts,adminRemoveProduct}

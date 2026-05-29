@@ -25,7 +25,7 @@ const schema = new mongoose.Schema({
     date:{type:Number,required:true},
     store:{
       type:mongoose.Schema.Types.ObjectId,
-      ref:"store",
+      ref:"Store",
       required:true,
     }
 })

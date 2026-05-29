@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Add from './pages/Add'
 import List from './pages/List'
 import Order from './pages/Order'
 import Login from './pages/Login'
@@ -30,7 +29,6 @@ const App = () => {
       <div>
         <Navbar setToken={setToken} />
         <Routes>
-          <Route path='/' element={<Add token={token} />}/>
           <Route path='/list' element={<List token={token} />} />
           <Route path='/orders' element={<Order token={token} />} />
         </Routes>

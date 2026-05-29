@@ -17,6 +17,10 @@ const DataContextProvider = (props) =>{
     const [qty,setQty]= useState(1)
     const [cartData,setCartData] = useState({})
     const [dataLoaded,setDataLoaded] = useState(false)
+    const [userData,setUserData] = useState(null)
+
+    const [token,setToken] = useState(localStorage.getItem("token") || "" ) 
+
 
     const [form, setForm] = useState({
         name: "",
@@ -26,6 +30,24 @@ const DataContextProvider = (props) =>{
         city: "",
         pincode: ""
     })
+
+    const fetchProfileData = async () => {
+        try {
+            
+            const res = await axios.post(backend_url+ "/api/profile/getprofile",{},{headers:{token}})
+            
+            if (res.data.success) {
+                setUserData(res.data.user)
+            }
+            else{
+                console.log(res.data.message);
+            }
+
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 
     const fetchProfile = async () => { 
         try {
@@ -47,8 +69,6 @@ const DataContextProvider = (props) =>{
         }
     }
     
- 
-    const [token,setToken] = useState(localStorage.getItem("token") || "" ) 
 
     const fetchProducts = async () =>{
         try {
@@ -129,12 +149,13 @@ const DataContextProvider = (props) =>{
     useEffect(()=>{
         if (token) {
             fetchCart()
+            fetchProfileData();
         }
     },[token])
 
     const data={
         currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
-        updateCart,dataLoaded,form,setForm,fetchProfile
+        updateCart,dataLoaded,form,setForm,fetchProfile,userData,setUserData,
 }
 
     return ( 
