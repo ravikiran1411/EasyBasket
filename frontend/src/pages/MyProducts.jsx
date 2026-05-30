@@ -78,7 +78,6 @@ return (
 
     <div className="max-w-6xl mx-auto">
 
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
 
         <div>
@@ -180,12 +179,10 @@ return (
                       {item.category}
                     </p>
                   </div>
-
                 </div>
-
               </div>
 
-              {/* Actions */}
+
               <div className="flex gap-3">
 
                 <button onClick={() => navigate(`/vendor/edit-product/${item._id}`)} 

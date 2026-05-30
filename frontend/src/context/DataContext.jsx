@@ -159,7 +159,7 @@ const DataContextProvider = (props) =>{
 }
 
     return ( 
-        <DataContext.Provider value={data}> 
+        <DataContext.Provider value={data}>
             {props.children}
         </DataContext.Provider>
     )
