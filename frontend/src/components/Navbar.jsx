@@ -254,17 +254,17 @@ const Navbar = () => {
 
         <input
           type="text"
-          value={pincode}
+          value={city}
           onChange={(e) =>
-            setPincode(e.target.value)
+            setCity(e.target.value)
           }
-          placeholder="Enter Pincode"
+          placeholder="Enter city"
           className="w-full border p-3 rounded-lg"
         />
 
         <button
           className="w-full mt-3 bg-green-600 text-white py-3 rounded-lg"
-          onClick={handlePincode}
+          onClick={handleManualLocation}
         >
           Save Pincode
         </button>
