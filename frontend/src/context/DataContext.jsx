@@ -18,6 +18,9 @@ const DataContextProvider = (props) =>{
     const [cartData,setCartData] = useState({})
     const [dataLoaded,setDataLoaded] = useState(false)
     const [userData,setUserData] = useState(null)
+    const [userLocation,setUserLocation]= useState(null)
+    const [locationName,setLocationName] = useState(localStorage.getItem("location") || "")
+    const [locationDenied,setLocationDenied]=useState(false)
 
     const [token,setToken] = useState(localStorage.getItem("token") || "" ) 
 
@@ -30,6 +33,54 @@ const DataContextProvider = (props) =>{
         city: "",
         pincode: ""
     })
+
+    const getUserLocation = () => {
+
+        if (!navigator.geolocation) {
+            return   
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            async (position)=>{
+
+                try {
+
+                const latitude = position.coords.latitude
+                const longitude = position.coords.longitude
+                
+                setUserLocation({latitude,longitude}) 
+                setLocationDenied(false)
+
+                const response = await axios.get(`https:/nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`) 
+
+                const address = response.data.address;
+
+                const city = address.city || address.town || address.village || address.county || "unknown location";
+
+                setLocationName(city);
+
+                localStorage.setItem("location",city)
+
+                    
+                } catch (error) {
+                    console.log(error.message);
+                    
+                }
+
+        }, (error)=>{
+            console.log(error);
+            setLocationDenied(true)
+            toast.error("location permission denied")
+        })
+    }
+
+    const saveManualLocation = (cityName) => {
+        
+        setLocationName(cityName);
+        localStorage.setItem("location",cityName);
+    }
+
 
     const fetchProfileData = async () => {
         try {
@@ -77,7 +128,9 @@ const DataContextProvider = (props) =>{
                 setProducts(response.data.products)
             }else{
                 console.log(response.data);
-            }} catch (error) {
+            }
+        }     
+        catch (error) {
             console.log(error.message);
         }
     }
@@ -142,6 +195,10 @@ const DataContextProvider = (props) =>{
     }
 
     useEffect(()=>{
+        getUserLocation();
+    },[])
+
+    useEffect(()=>{
         fetchProducts()
     },[])
 
@@ -155,8 +212,9 @@ const DataContextProvider = (props) =>{
 
     const data={
         currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
-        updateCart,dataLoaded,form,setForm,fetchProfile,userData,setUserData,
-}
+        updateCart,dataLoaded,form,setForm,fetchProfile,userData,setUserData,userLocation,locationName,setLocationName,locationDenied,getUserLocation,
+        saveManualLocation
+    }
 
     return ( 
         <DataContext.Provider value={data}>

@@ -6,11 +6,36 @@ import { toast } from 'react-toastify'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
-  const { token, setToken,search,setSearch,showSearch,setShowSearch,cartData,userData,setUserData} = useContext(DataContext)
+  const { token, setToken,search,setSearch,showSearch,setShowSearch,
+    cartData,userData,setUserData,locationDenied,locationName,
+    setLocationName,getUserLocation,userLocation,savePincodeLocation} = useContext(DataContext)
   const [login, setLogin] = useState("Login")
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [pincode, setPincode] = useState("");
 
   const navigate = useNavigate()
   const location = useLocation()
+
+  const handleLocation = async () => {
+    await getUserLocation();
+    setShowLocationModal(false)
+  }
+
+  const handlePincode = async () => {
+    if (pincode.length!==6) {
+      return toast.error("invalid pincode")
+    }
+
+    const result = await savePincodeLocation(pincode)
+    if (result.success) {
+      toast.success("location updated")
+      setShowLocationModal(false)
+      setPincode("")
+    }
+    else{
+      toast.error("invalid pincode..")
+    }
+  }
 
   const loginSet = () => {
     if (token) setLogin('Logout')
@@ -56,16 +81,29 @@ const Navbar = () => {
 
       <div className="flex justify-between items-center gap-3 sm:gap-5 px-3 sm:px-10 py-3">
 
-        {/* LEFT */}
-        <div className="flex items-center justify-between gap-2 sm:gap-10">
+        
+        <div className="flex items-center justify-between gap-4 sm:gap-10">
           <Link to="/" className="text-md sm:text-2xl font-bold text-green-700">
-            <img src={assets.logo} className='h-7 sm:h-10 ' />
+            <img src={assets.logo} className=' w-15 h-7 sm:w-30 sm:h-10 ' />
           </Link>
 
-          <div className='hidden sm:flex flex-col sm:flex-row items-center gap-1 text-xs sm:text-sm cursor-pointer'>
-            <img src={assets.map_icon} className='w-4 h-4' alt="" />
-            <p className='text-xm'>Hyderabad</p>
+          <div
+            onClick={() => setShowLocationModal(true)}
+            className="cursor-pointer flex items-center gap-1"
+            >
+              <img src={assets.map_icon} className='w-4 h-4' alt="" />
+              <p className="hidden sm:block font-medium text-[12px] sm:text-sm ">
+                {
+                locationName ? locationName : "Select Location"
+                }
+              </p>
+              <p className=" sm:hidden font-medium text-[12px] sm:text-sm ">
+                {
+                locationName ? locationName : "Location"
+                }
+              </p>
           </div>
+
         </div>
 
         <div className="flex-1 mx-2 sm:mx-4 relative flex justify-end">
@@ -95,7 +133,6 @@ const Navbar = () => {
         className="w-5 h-5 cursor-pointer sm:hidden"
         />
        
-        {/* DESKTOP NAV (UNCHANGED) */}
         <div className='hidden md:flex items-center gap-3 mx-5'>
           <NavLink to="/product" className="hover:text-green-600 font-semibold">
             SHOP
@@ -182,6 +219,64 @@ const Navbar = () => {
 
         </div>
       </div>
+      {
+  showLocationModal && (
+
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <div className="bg-white p-6 rounded-xl w-[90%] max-w-md">
+
+        <div className="flex justify-between items-center mb-5">
+
+          <h2 className="text-xl font-semibold">
+            Select Location
+          </h2>
+
+          <button
+            onClick={() =>
+              setShowLocationModal(false)
+            }
+          >
+            ✕
+          </button>
+
+        </div>
+
+        <button
+          className="w-full bg-black text-white py-3 rounded-lg"
+          onClick={handleLocation}
+
+        >
+          Use Current Location
+        </button>
+
+        <div className="my-4 text-center text-gray-400">
+          OR
+        </div>
+
+        <input
+          type="text"
+          value={pincode}
+          onChange={(e) =>
+            setPincode(e.target.value)
+          }
+          placeholder="Enter Pincode"
+          className="w-full border p-3 rounded-lg"
+        />
+
+        <button
+          className="w-full mt-3 bg-green-600 text-white py-3 rounded-lg"
+          onClick={handlePincode}
+        >
+          Save Pincode
+        </button>
+
+      </div>
+
+    </div>
+
+  )
+}
 
     </div>
   )
