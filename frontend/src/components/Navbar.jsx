@@ -8,10 +8,10 @@ const Navbar = () => {
   const [visible, setvisible] = useState(false)
   const { token, setToken,search,setSearch,showSearch,setShowSearch,
     cartData,userData,setUserData,locationDenied,locationName,
-    setLocationName,getUserLocation,userLocation,savePincodeLocation} = useContext(DataContext)
+    setLocationName,getUserLocation,userLocation,saveManualLocation} = useContext(DataContext)
   const [login, setLogin] = useState("Login")
   const [showLocationModal, setShowLocationModal] = useState(false);
-  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -21,22 +21,20 @@ const Navbar = () => {
     setShowLocationModal(false)
   }
 
-  const handlePincode = async () => {
-    if (pincode.length!==6) {
-      return toast.error("invalid pincode")
+  const handleManualLocation = async () => {
+
+    if (!city.trim()) {
+      toast.error("enter city name")
+      return
     }
 
-    const result = await savePincodeLocation(pincode)
-    if (result.success) {
-      toast.success("location updated")
-      setShowLocationModal(false)
-      setPincode("")
-    }
-    else{
-      toast.error("invalid pincode..")
-    }
+    saveManualLocation(city)
+    toast.success("location updated")
+    setShowLocationModal(false)
+    setCity("")
   }
 
+  
   const loginSet = () => {
     if (token) setLogin('Logout')
     else setLogin('Login')
