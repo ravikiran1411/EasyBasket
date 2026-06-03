@@ -232,6 +232,7 @@ const adminRemoveProduct = async(req,res)=>{
     try {
 
         const product = await productModel.findById(req.body.id)
+        
 
         if(!product){
             return res.status(404).json({
@@ -260,6 +261,8 @@ const nearbyProducts = async (req,res) => {
         
         const {latitude,longitude,city} = req.body;
         
+        console.log(req.body);
+        
         
         let stores=[]
 
@@ -281,8 +284,11 @@ const nearbyProducts = async (req,res) => {
         }
 
         else if (city) {
-
-            stores = await store.find({city: city.toLowerCase(),isApproved: true});
+            console.log("hello");
+            
+            stores = await store.find({city: city.toLowerCase()});
+            console.log(stores);
+            
 
         }
         else {

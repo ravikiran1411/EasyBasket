@@ -20,7 +20,7 @@ const Delivery_in10min = () => {
 
           <h2 className="text-lg sm:text-3xl font-semibold text-white leading-snug">
             Groceries at your door<br />
-            in <span className="text-[#7effc0]">10 minutes</span>
+            in <span className="text-[#7effc0]">20 minutes</span>
           </h2>
 
           <p className="text-[11px] sm:text-sm text-white/75 leading-relaxed sm:block">

@@ -13,7 +13,7 @@ function ProductList({ id, image, name, price, category, brand, quantity,bestSel
 
         <div className="relative overflow-hidden bg-gray-100">
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent z-0"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent z-0"></div>
 
           <span className="absolute bottom-2 right-2 bg-white/90 backdrop-blur text-gray-700 text-xs px-3 py-1 rounded-full shadow z-10 capitalize">
             {category}

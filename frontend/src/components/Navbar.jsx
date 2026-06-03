@@ -23,7 +23,6 @@ const Navbar = () => {
     await getUserLocation();
     setShowLocationModal(false)
   }  
-
   
   const loginSet = () => {
     if (token) setLogin('Logout')
@@ -64,6 +63,7 @@ const Navbar = () => {
     loginSet()
   }, [token])
 
+
   return (
     <div className="bg-white shadow-sm sticky top-0 z-50">
 
@@ -79,13 +79,13 @@ const Navbar = () => {
             onClick={() => setShowLocationModal(true)}
             className="cursor-pointer flex items-center gap-1"
             >
-              <img src={assets.map_icon} className='w-4 h-4' alt="" />
+              <img src={assets.map_icon} className='w-3 h-4 sm:w-4 sm:h-4' alt="" />
               <p className="hidden sm:block font-medium text-[12px] sm:text-sm ">
                 {
                 locationName ? locationName : "Select Location"
                 }
               </p>
-              <p className=" sm:hidden font-medium text-[12px] sm:text-sm ">
+              <p className=" sm:hidden font-semibold text-[8px] sm:text-sm ">
                 {
                 locationName ? locationName : "Location"
                 }
@@ -182,7 +182,8 @@ const Navbar = () => {
                 }
                 <hr className='text-green-400/60' />
 
-                <p onClick={handleLogin} className="cursor-pointer hover:text-green-600">{login}</p>
+                <p onClick={handleLogin} className={login==="Logout" ? "text-red-600 text-lg font-medium hover:text-red-800 cursor-pointer" : "cursor-pointer text-green-600 hover:text-green-700 text-lg font-medium" }>{login}</p>
+
               </div>
             </div>
           </div>
@@ -204,9 +205,25 @@ const Navbar = () => {
         <div className="flex flex-col gap-5 px-6 text-gray-700">
           <NavLink onClick={() => setvisible(false)} to="/">Home</NavLink>
           <NavLink onClick={() => setvisible(false)} to="/profile">My Profile</NavLink>
+          {
+            userData && userData.accountType==="user" && (
+              <p onClick={()=> navigate('/create-store')} className='cursor-pointer hover:text-green-600'>
+                Become Vendor
+              </p>
+            )
+          }
+
+          {
+            userData && userData.accountType === "vendor" && (
+              <p onClick={()=>navigate('/vendor/dashboard')} className='cursor-pointer hover:text-green-600' >Vendor dashboard</p>
+            )
+          }
           <NavLink onClick={() => setvisible(false)} to="/product">Shop</NavLink>
           <NavLink onClick={() => setvisible(false)} to="/cart">Cart</NavLink>
           <NavLink onClick={() => setvisible(false)} to="/orders">Orders</NavLink>
+          <p onClick={handleLogin} className={login==="Logout" ? "text-red-600 text-lg font-medium hover:text-red-800 cursor-pointer" : "cursor-pointer text-green-600 hover:text-green-700 text-lg font-medium" }>{login}</p>
+
+         
 
         </div>
       </div>

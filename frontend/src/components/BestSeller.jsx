@@ -28,20 +28,23 @@ const BestSeller = () => {
                 <span className='w-8 sm:w-12 h-0.5 bg-green-700'></span>            
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-4 gap-2 md:gap-3 pb-10 lg:grid-cols-5 pt-7'>
+        <div className='flex overflow-x-auto gap-3 md:grid md:grid-cols-3 lg:grid-cols-5 pb-10 pt-7'>
           {
                 bestSeller.map((item,index)=>(
-                <ProductList
-                key={index} 
-                image={item.image} 
-                id={item._id} 
-                name={item.name} 
-                price={item.price}
-                quantity={item.quantity}
-                brand={item.brand}
-                bestSeller={item.bestSeller}
-                category={item.category}
-                />
+                  <div key={index} className='min-w-[80%] md:min-w-0'> 
+                    <ProductList
+                      image={item.image} 
+                      id={item._id} 
+                      name={item.name} 
+                      price={item.price}
+                      quantity={item.quantity}
+                      brand={item.brand}
+                      bestSeller={item.bestSeller}
+                      category={item.category}
+                    />
+
+                  </div>
+
               ))
            }
         </div>

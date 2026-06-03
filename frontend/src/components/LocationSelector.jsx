@@ -4,18 +4,13 @@ import { toast } from 'react-toastify'
 
 const LocationSelector = () => {
 
-    const {
-        showLocationModal,
-        setShowLocationModal,
-        getUserLocation,
-        cities,
-        selectedCity,
-        setSelectedCity
-    } = useContext(DataContext)
+    const {showLocationModal,setShowLocationModal,getUserLocation,cities,selectedCity,setSelectedCity,setLocationName,setLocationType} = useContext(DataContext)
 
     const handleLocation = async () => {
+
         await getUserLocation();
         setShowLocationModal(false);
+
     }
 
     const handleSaveLocation = () => {
@@ -24,11 +19,13 @@ const LocationSelector = () => {
             toast.error("Please select a city");
             return;
         }
+        setLocationName(selectedCity)
+        setLocationType("manual")
 
-        localStorage.setItem(
-            "selectedCity",
-            selectedCity
-        );
+        localStorage.setItem("selectedCity",selectedCity);
+        localStorage.setItem('location',selectedCity)
+
+
 
         toast.success("Location Updated");
 
@@ -44,16 +41,14 @@ const LocationSelector = () => {
 
                 <div className="flex justify-between items-center mb-5">
 
-                    <h2 className="text-xl font-semibold">
-                        Select Location
-                    </h2>
+                    <h2 className="text-xl font-semibold">Select Location</h2>
 
                     <button
                         onClick={() =>
                             setShowLocationModal(false)
                         }
                     >
-                        ✕
+                        X
                     </button>
 
                 </div>
@@ -71,24 +66,14 @@ const LocationSelector = () => {
 
                 <select
                     value={selectedCity}
-                    onChange={(e) =>
-                        setSelectedCity(e.target.value)
-                    }
+                    onChange={(e) => setSelectedCity(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-3 py-3 outline-none"
                 >
 
-                    <option value="">
-                        Select City
-                    </option>
-
+                    <option value="">Select City</option>
                     {
-                        cities.map((city) => (
-                            <option
-                                key={city}
-                                value={city}
-                            >
-                                {city}
-                            </option>
+                        cities?.map((city) => (
+                            <option key={city} value={city}>{city}</option>
                         ))
                     }
 

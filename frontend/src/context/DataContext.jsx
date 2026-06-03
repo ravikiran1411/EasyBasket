@@ -25,6 +25,7 @@ const DataContextProvider = (props) =>{
     const [selectedCity,setSelectedCity]=useState(localStorage.getItem('selectedCity') || "")
     const [cities,setCities]=useState([])
     const [showLocationModal,setShowLocationModal]=useState(false);
+    const [locationType,setLocationType] = useState(null)
     
     const [nearbyProducts,setNearbyProducts] = useState([])
 
@@ -53,9 +54,7 @@ const DataContextProvider = (props) =>{
                 try {
 
                 const latitude = position.coords.latitude
-                const longitude = position.coords.longitude
-                console.log(latitude,longitude);
-                
+                const longitude = position.coords.longitude                
                 
                 setUserLocation({latitude,longitude}) 
                 setLocationDenied(false)
@@ -65,9 +64,9 @@ const DataContextProvider = (props) =>{
                 const address = response.data.address;
 
                 const city = address.city || address.town || address.village || address.county || "unknown location";
-                
-                console.log(city);
 
+                setLocationType("gps")
+                
                 setLocationName(city)
 
                 localStorage.setItem('location',city)
@@ -145,13 +144,23 @@ const DataContextProvider = (props) =>{
         try {
             
             if (userLocation || selectedCity) {
-                
-                const payload= userLocation ? {latitude:userLocation.latitude,longitude:userLocation.longitude} : {city:selectedCity}
-                
+
+                let payload={}
+
+                if (userLocation && locationType==="gps" ) {
+                    payload={latitude:userLocation.latitude,longitude:userLocation.longitude}
+                }
+                else if(selectedCity) {
+                    payload= {city:selectedCity}
+                    
+                }
+                                
                 const response = await axios.post(backend_url+'/api/product/nearbyproducts',payload)
 
                 if (response.data.success) {
                     setProducts(response.data.products)
+                    console.log(response.data);
+                    
                 }
                 else{
                     toast.error("something went wrong")
@@ -256,12 +265,12 @@ const DataContextProvider = (props) =>{
         
         fetchProducts();
 
-    }, [userLocation,selectedCity]);
+    }, [userLocation,selectedCity,locationType]);
 
     const data={
         currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
         updateCart,dataLoaded,form,setForm,fetchProfile,userData,setUserData,userLocation,locationName,setLocationName,locationDenied,getUserLocation,
-        cities,selectedCity,setSelectedCity,showLocationModal,setShowLocationModal,
+        cities,selectedCity,setSelectedCity,showLocationModal,setShowLocationModal,locationType,setLocationType
     
     }
 
