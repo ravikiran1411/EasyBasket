@@ -1,6 +1,6 @@
 # 🛒 EasyBasket – Multi-Vendor Grocery Marketplace
 
-EasyBasket is a modern full-stack grocery marketplace built using the MERN stack. Users can browse products, manage carts, place orders, and review products, while vendors can create stores, manage inventory, and maintain their own products.
+EasyBasket is a modern full-stack grocery marketplace built using the MERN stack. Users can browse products, manage carts, place orders, review products, discover nearby products based on their location, while vendors can create stores, manage inventory, and maintain their own products.
 
 ---
 
@@ -21,9 +21,15 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 * Search Products
 * Add to Cart & Update Quantity
 * Place Orders
+* Secure Stripe Payments
 * View Profile Details
 * Product Ratings & Reviews
 * Persistent Cart (after refresh)
+* Automatic Location Detection
+* Manual City Selection Fallback
+* Hyperlocal Product Discovery
+* Nearby Product Filtering
+* Location-Based Product Discovery
 
 ---
 
@@ -38,6 +44,8 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 * View Vendor Products
 * Product Ownership Validation
 * Secure Vendor Authorization
+* Store Location Management
+* City-Based Store Discovery
 
 ---
 
@@ -46,8 +54,9 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 * Secure Admin Login
 * Manage Platform
 * View Orders
-* Delete products
+* Delete Products
 * Update Order Status (Placed → Delivered)
+* Manage Marketplace Operations
 
 ---
 
@@ -69,6 +78,8 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 * JWT Authentication
 * Cloudinary
 * Multer
+* Stripe
+* MongoDB Geospatial Queries
 
 ### Deployment
 
@@ -81,20 +92,25 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 
 ```text
 User
+ ├── Authentication
  ├── Browse Products
+ ├── Search Products
  ├── Cart & Orders
- └── Reviews
+ ├── Reviews
+ └── Hyperlocal Product Discovery
 
 Vendor
  ├── Create Store
  ├── Manage Store
+ ├── Store Location Setup
  ├── Add Products
  ├── Edit Products
  └── Delete Products
 
 Admin
  ├── Manage Platform
- └── Monitor Orders
+ ├── Monitor Orders
+ └── Manage Marketplace
 ```
 
 ---
@@ -154,6 +170,8 @@ ADMIN_PASSWORD=your_admin_password
 CLOUDINARY_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+
+STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 ### Frontend & Admin (.env)
@@ -206,27 +224,46 @@ npm run dev
 * Vendor Authorization Middleware
 * Product Ownership Validation
 * Store Ownership Validation
+* Stripe Payment Verification
+* Secure Order Processing
 
 ---
 
-## 📌 Upcoming Features
+## 📍 Hyperlocal Delivery System
 
-### Hyperlocal Delivery System
+### ✅ Completed
 
 * User Location Detection
-* Nearby Store Discovery
+* Manual City Selection Fallback
+* Nearby Product Discovery
 * Nearby Product Filtering
+* MongoDB Geospatial Search
+* City-Based Product Discovery
+* Hyperlocal Product Discovery System
+
+### 🚧 In Progress
+
+* Service Availability Screen
+* Store Delivery Radius System
 * 10-Minute Delivery Simulation
-* Service Availability Check
 
-### Future Enhancements
+### 🔮 Future Enhancements
 
-* Razorpay Payment Integration
 * Vendor Dashboard Analytics
 * Order Tracking System
 * Real-Time Notifications
 * Store Logos & Branding
-* Geospatial Search using MongoDB
+* Delivery Partner Management
+* Advanced Search & Recommendations
+
+---
+
+## 📷 Image Credits
+
+Product images used in this project are sourced from BigBasket and are used for educational and demonstration purposes only.
+
+All trademarks, logos, and product images belong to their respective owners.
+
 
 ---
 
