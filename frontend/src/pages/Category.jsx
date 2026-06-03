@@ -4,11 +4,12 @@ import ProductList from '../components/ProductList'
 import { assets } from '../assets/assets'
 import Delivery_in10min from '../components/Delivery_in10min'
 import { useLocation, useNavigate } from 'react-router-dom'
+import LocationUnavailable from '../components/LocationUnavailable'
 
 const Category = () => {
 
   const navigate = useNavigate();
-  const {products,currency,search,setSearch,showSearch,setShowSearch} = useContext(DataContext);
+  const {products,nearbyProducts,currency,search,setSearch,showSearch,setShowSearch} = useContext(DataContext);
   const [showFilter,setShowFilter] =useState(false);
   const [priceRange,setPriceRange] = useState('');
   const [product,setProduct] = useState([])
@@ -21,6 +22,8 @@ const Category = () => {
   const productData = async () =>{
     
     let pcopy=products.slice()
+
+    
 
     if (category) {
       pcopy = pcopy.filter((item)=>item.category.toLowerCase()===category.toLowerCase())
@@ -176,9 +179,10 @@ const Category = () => {
             quantity={item.quantity}
             bestSeller={item.bestSeller}
           />
-          )) : <div> 
-             <h1 id='header' className='text-2xl text-center'>No Products Available.</h1>
-          </div> }
+          )) : <div>
+                 <p>loading...</p>
+              </div>
+           }
         </div>
       </div>
 

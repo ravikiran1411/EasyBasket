@@ -13,6 +13,10 @@ const schema = new mongoose.Schema(
             ref:"User",
             required:true,
         },
+        city:{
+            type:String,
+            required:true
+        },
         address:{
             type:String,
             required:true,
@@ -28,10 +32,7 @@ const schema = new mongoose.Schema(
                 required:true,
             },
         },
-        deliveryRadius:{
-            type:Number,
-            default:5,
-        },
+        
         isApproved : {
             type:Boolean,
             default:false,

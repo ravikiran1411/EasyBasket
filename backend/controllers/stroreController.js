@@ -4,9 +4,9 @@ import userModel from "../model/userModel.js";
 const createVendorAccount = async (req,res) =>{
     try {
         
-        const {storeName,address,latitude,longitude,deliveryRadius} = req.body;
+        const {storeName,city,address,latitude,longitude} = req.body;
 
-        if (!storeName || !address || !latitude || !longitude) {
+        if (!storeName || !city || !address || !latitude || !longitude) {
             return res.json({ success:false,message:"all fields are required"})
         }
         
@@ -18,13 +18,13 @@ const createVendorAccount = async (req,res) =>{
 
         const storeData = await store.create({
             storeName,
+            city:city.toLowerCase() ,
             owner:req.user.id,
             address,
             location:{
                 type:"Point",
                 coordinates:[longitude,latitude],
             },
-            deliveryRadius,
         });
 
         await userModel.findByIdAndUpdate(req.user.id,{accountType:"vendor"})
@@ -41,7 +41,7 @@ const updateStore = async (req,res) =>{
 
     try {
 
-        const {storeName,address,latitude,longitude,deliveryRadius} = req.body;
+        const {storeName,city,address,latitude,longitude} = req.body;
 
         const storeData = await store.findOne({owner:req.user.id});
 
@@ -52,6 +52,11 @@ const updateStore = async (req,res) =>{
         if (storeName) {
             storeData.storeName=storeName
         }
+
+        if (city) {
+            storeData.city=city.toLowerCase()
+        }
+
         if (address) {
             storeData.address=address
         }
@@ -61,10 +66,7 @@ const updateStore = async (req,res) =>{
                 coordinates:[longitude,latitude]
             }
         }
-        if (deliveryRadius) {
-            storeData.deliveryRadius=deliveryRadius
-        }
-
+       
         await storeData.save()
 
         res.json({success:true,message:"store updated successfully..",storeData})
@@ -94,5 +96,56 @@ const getMyStore = async (req,res)=>{
     }
 }
 
+const getNearbyStores = async (req,res) => {
+    try {
+        
+        const {latitude,longitude,city} = req.body
+        let stores = []
 
-export {createVendorAccount,updateStore,getMyStore}
+        if (latitude && longitude) {
+            stores = await store.find({
+                location:{
+                    $near:{
+                        $geometry:{
+                            type:"Point",
+                            coordinates:[Number(longitude),Number(latitude)]   
+                        },
+                        $maxDistance:15000
+                    }
+                }
+            })
+            res.json({success:true,stores})
+        }
+
+        else if(city) {
+            stores = await store.find({city: city.toLowerCase(),isApproved: true});
+            res.json({success:true,stores})
+
+        }
+
+        else {
+
+            return res.json({success: false,message: "Location required"});
+        }
+
+
+    } catch (error) {
+        res.json({success:false,message:error.message})
+    }
+
+}
+
+const getStoreCities = async (req,res) => {
+
+    try { 
+        
+        const cities = await store.distinct("city") 
+
+        res.json({success:true,cities}) 
+
+    } catch (error) { 
+        res.json({success:false,message:error.message}) 
+    } 
+} 
+
+export {createVendorAccount,updateStore,getMyStore,getNearbyStores,getStoreCities} 

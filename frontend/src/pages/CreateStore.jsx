@@ -11,10 +11,10 @@ const CreateStore = () => {
 
     const [formData, setFormData] = useState({
         storeName: "",
+        city:"",
         address: "",
         latitude: "",
         longitude: "",
-        deliveryRadius: "",
     });
 
     const handleChange = (e) => {
@@ -29,10 +29,10 @@ const CreateStore = () => {
         
             const response = await axios.post(backend_url+'/api/stores/createvendor',{
                 storeName:formData.storeName,
+                city:formData.city,
                 address:formData.address,
                 latitude:formData.latitude,
                 longitude:formData.longitude,
-                deliveryRadius:formData.deliveryRadius,
             },{headers:{token}})
 
             if (response.data.success) {
@@ -84,6 +84,15 @@ const CreateStore = () => {
           required
         />
 
+        <input 
+        type="text" 
+        name="city" 
+        placeholder="enter city" 
+        value={formData.city} 
+        onChange={handleChange} 
+        className="w-full border p-3 rounded mb-4" 
+        />
+
         <input
           type="number"
           name="latitude"
@@ -104,15 +113,7 @@ const CreateStore = () => {
           required
         />
 
-        <input
-          type="number"
-          name="deliveryRadius"
-          placeholder="Delivery Radius (KM)"
-          value={formData.deliveryRadius}
-          onChange={handleChange}
-          className="w-full border p-3 rounded mb-6"
-          required
-        />
+
 
         <button
           type="submit"

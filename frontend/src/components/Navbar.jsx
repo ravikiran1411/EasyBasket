@@ -3,15 +3,18 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
 import { DataContext } from '../context/DataContext.jsx'
 import { toast } from 'react-toastify'
+import LocationSelector from './LocationSelector.jsx'
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false)
+
   const { token, setToken,search,setSearch,showSearch,setShowSearch,
-    cartData,userData,setUserData,locationDenied,locationName,
-    setLocationName,getUserLocation,userLocation,saveManualLocation} = useContext(DataContext)
+  cartData,userData,setUserData,locationDenied,locationName,
+  setLocationName,getUserLocation,userLocation,cities,selectedCity,
+  setSelectedCity,showLocationModal,setShowLocationModal,
+  } = useContext(DataContext)
+
   const [login, setLogin] = useState("Login")
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const [city, setCity] = useState("");
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -19,20 +22,7 @@ const Navbar = () => {
   const handleLocation = async () => {
     await getUserLocation();
     setShowLocationModal(false)
-  }
-
-  const handleManualLocation = async () => {
-
-    if (!city.trim()) {
-      toast.error("enter city name")
-      return
-    }
-
-    saveManualLocation(city)
-    toast.success("location updated")
-    setShowLocationModal(false)
-    setCity("")
-  }
+  }  
 
   
   const loginSet = () => {
@@ -68,7 +58,7 @@ const Navbar = () => {
     }
   }
 
-  const cartCount =Object.values(cartData || {}).reduce((a,b)=>a+b,0)
+  const cartCount = Object.values(cartData || {}).reduce((a,b)=>a+b,0)
 
   useEffect(() => {
     loginSet()
@@ -101,6 +91,9 @@ const Navbar = () => {
                 }
               </p>
           </div>
+
+          <LocationSelector/>
+          
 
         </div>
 
@@ -217,64 +210,6 @@ const Navbar = () => {
 
         </div>
       </div>
-      {
-  showLocationModal && (
-
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-      <div className="bg-white p-6 rounded-xl w-[90%] max-w-md">
-
-        <div className="flex justify-between items-center mb-5">
-
-          <h2 className="text-xl font-semibold">
-            Select Location
-          </h2>
-
-          <button
-            onClick={() =>
-              setShowLocationModal(false)
-            }
-          >
-            ✕
-          </button>
-
-        </div>
-
-        <button
-          className="w-full bg-black text-white py-3 rounded-lg"
-          onClick={handleLocation}
-
-        >
-          Use Current Location
-        </button>
-
-        <div className="my-4 text-center text-gray-400">
-          OR
-        </div>
-
-        <input
-          type="text"
-          value={city}
-          onChange={(e) =>
-            setCity(e.target.value)
-          }
-          placeholder="Enter city"
-          className="w-full border p-3 rounded-lg"
-        />
-
-        <button
-          className="w-full mt-3 bg-green-600 text-white py-3 rounded-lg"
-          onClick={handleManualLocation}
-        >
-          Save Pincode
-        </button>
-
-      </div>
-
-    </div>
-
-  )
-}
 
     </div>
   )

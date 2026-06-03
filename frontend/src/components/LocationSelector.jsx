@@ -1,51 +1,110 @@
-import { useContext, useState } from "react";
-import { assets } from '../assets/assets.js'
+import React, { useContext } from 'react'
+import { DataContext } from '../context/DataContext'
+import { toast } from 'react-toastify'
 
-import { DataContext } from "../context/DataContext";
+const LocationSelector = () => {
 
-export default function LocationSelector() { 
-  const {LOCATIONS,selectedLocation,setSelectedLocation} =useContext(DataContext);
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState("");
+    const {
+        showLocationModal,
+        setShowLocationModal,
+        getUserLocation,
+        cities,
+        selectedCity,
+        setSelectedCity
+    } = useContext(DataContext)
 
-  const filteredLocations = LOCATIONS.filter((loc) =>
-    loc.toLowerCase().includes(search.toLowerCase()) 
-  );
+    const handleLocation = async () => {
+        await getUserLocation();
+        setShowLocationModal(false);
+    }
 
-  return (
-    <>
-      <div onClick={() => setOpen(true)} className="sm:ml-5 flex bg-slate-200 items-center gap-2 sm:gap-4 border sm:border-2 border-slate-300 p-2 rounded-2xl cursor-pointer" >
-        <p className="text-gray-600 w-25 sm:w-45 text-sm font-medium sm:pl-3">{selectedLocation || "Select your location"} </p>
-        <img src={assets.map_icon} alt="map" className="w-3 h-3 sm:w-7 sm:h-7 hidden sm:block" />
-      </div>
+    const handleSaveLocation = () => {
 
-      { open && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex justify-center items-start pt-24">
-          
-          <div className="bg-white w-50% sm:w-full max-w-md rounded-2xl p-4 shadow-lg">
-            
-            <input type="text" placeholder="Search your area in visakhapatnam" value={search} onChange={(e) => setSearch(e.target.value)} 
-            autoFocus className="w-full border p-3 rounded-xl outline-none mb-4" />
+        if (!selectedCity) {
+            toast.error("Please select a city");
+            return;
+        }
 
-            <ul className="max-h-60 overflow-y-auto"> 
-              {filteredLocations.length > 0 ? (
-                filteredLocations.map((loc) => (
-                  <li key={loc} 
-                    onClick={() => { setSelectedLocation(loc);
-                    setOpen(false);
-                    setSearch("");
-                    }}
-                    className="px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-100 ">
-                    <span className="flex flex-1 gap-2 items-center"> <img className="w-4" src={assets.map_icon} /> {loc} </span> </li>
-                ))
-              ) : (
-                <p className="text-sm text-gray-400 px-4 ">No locations found</p>
-              )}
-            </ul>
-            <button onClick={() => setOpen(false)} className="mt-4 text-sm text-gray-500 cursor-pointer ">Cancel</button>
-          </div>
+        localStorage.setItem(
+            "selectedCity",
+            selectedCity
+        );
+
+        toast.success("Location Updated");
+
+        setShowLocationModal(false);
+    }
+
+    if (!showLocationModal) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+            <div className="bg-white p-6 rounded-xl w-[90%] max-w-md">
+
+                <div className="flex justify-between items-center mb-5">
+
+                    <h2 className="text-xl font-semibold">
+                        Select Location
+                    </h2>
+
+                    <button
+                        onClick={() =>
+                            setShowLocationModal(false)
+                        }
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+                <button
+                    className="w-full bg-black text-white py-3 rounded-lg"
+                    onClick={handleLocation}
+                >
+                    Use Current Location
+                </button>
+
+                <div className="my-4 text-center text-gray-400">
+                    OR
+                </div>
+
+                <select
+                    value={selectedCity}
+                    onChange={(e) =>
+                        setSelectedCity(e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded-lg px-3 py-3 outline-none"
+                >
+
+                    <option value="">
+                        Select City
+                    </option>
+
+                    {
+                        cities.map((city) => (
+                            <option
+                                key={city}
+                                value={city}
+                            >
+                                {city}
+                            </option>
+                        ))
+                    }
+
+                </select>
+
+                <button
+                    className="w-full mt-3 bg-green-600 text-white py-3 rounded-lg"
+                    onClick={handleSaveLocation}
+                >
+                    Save Location
+                </button>
+
+            </div>
+
         </div>
-      )}
-    </>
-  );
+    )
 }
+
+export default LocationSelector

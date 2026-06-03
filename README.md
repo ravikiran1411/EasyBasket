@@ -46,6 +46,7 @@ EasyBasket is a modern full-stack grocery marketplace built using the MERN stack
 * Secure Admin Login
 * Manage Platform
 * View Orders
+* Delete products
 * Update Order Status (Placed → Delivered)
 
 ---

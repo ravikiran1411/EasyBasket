@@ -2,7 +2,7 @@
 import express from 'express'
 import adminAuth from '../middleware/adminAuth.js'
 import upload from '../middleware/multer.js'
-import { addProduct, addReview, adminRemoveProduct, allVendorProducts, listProduct, removeProduct, singleProduct, updateVendarProducts } from '../controllers/productController.js'
+import { addProduct, addReview, adminRemoveProduct, allVendorProducts, listProduct, nearbyProducts, removeProduct, singleProduct, updateVendarProducts } from '../controllers/productController.js'
 import userAuth from '../middleware/userAuth.js'
 import vendarAuth from '../middleware/vendarAuth.js'
 
@@ -20,8 +20,10 @@ productRouter.post('/update',userAuth,vendarAuth,updateVendarProducts)
 
 productRouter.post('/singleproduct',singleProduct) 
 
-productRouter.post('/allvendorproducts',userAuth,vendarAuth,allVendorProducts)
+productRouter.post('/allvendorproducts',userAuth,vendarAuth,allVendorProducts) 
 
-productRouter.post('/addreview',userAuth,addReview)
+productRouter.post('/addreview',userAuth,addReview) 
+
+productRouter.post('/nearbyproducts',nearbyProducts) 
 
 export default productRouter; 

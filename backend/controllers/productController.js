@@ -255,4 +255,58 @@ const adminRemoveProduct = async(req,res)=>{
     }
 }
 
-export {addProduct,removeProduct,listProduct,singleProduct,addReview,allVendorProducts,updateVendarProducts,adminRemoveProduct}
+const nearbyProducts = async (req,res) => {
+    try {
+        
+        const {latitude,longitude,city} = req.body;
+        
+        
+        let stores=[]
+
+        if (latitude && longitude) {
+            console.log(latitude,longitude);
+            
+            stores = await store.find({
+                location:{
+                    $near:{
+                        $geometry:{
+                            type:"Point",
+                            coordinates:[Number(longitude),Number(latitude)]
+                        },
+                        $maxDistance:15000,
+                    }
+                },
+                
+            })
+        }
+
+        else if (city) {
+
+            stores = await store.find({city: city.toLowerCase(),isApproved: true});
+
+        }
+        else {
+            return res.json({success: false,message: "Location required"});
+
+        }
+
+
+        const storeId = stores.map(item=>item._id) 
+
+        if (storeId.length===0) {
+            return res.json({success: true,products: []});
+        }
+
+        const products = await productModel.find({store:{$in:storeId}}).populate('store')
+
+        res.json({success:true,products}) 
+
+    } catch (error) {
+
+        res.status(500).json({success:false,message:error.message})
+        console.log(error.message);
+        
+    }
+}
+
+export {addProduct,removeProduct,listProduct,singleProduct,addReview,allVendorProducts,updateVendarProducts,adminRemoveProduct,nearbyProducts}
