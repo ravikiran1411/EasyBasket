@@ -11,6 +11,7 @@ const features = [
 ];
 
 const WhyEasyBasket = () => {
+  
   return (
     <div className="px-4 sm:px-10 lg:px-14 mt-14 bg-slate-50 py-6">
         <div className='text-black font-medium flex gap-2 items-center justify-center'>
@@ -24,7 +25,7 @@ const WhyEasyBasket = () => {
         {features.map((item, index) => (
           <div
             key={index}
-            className="min-w-[160px] sm:min-w-[200px] bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition"
+            className="min-w-40 sm:min-w-50 bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition"
           >
             <div className="flex justify-center mb-3">
               <img className="w-16 sm:w-20" src={item.icon} alt="" />

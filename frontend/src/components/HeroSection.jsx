@@ -44,7 +44,6 @@ const HeroSection = () => {
             index === current ? "opacity-100 z-10" : "opacity-0"
           }`}
         >
-          
 
           {index === 0 && (
             <div className="w-full h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-4 md:px-12 bg-gradient-to-r from-green-100 to-green-200 text-center md:text-left">

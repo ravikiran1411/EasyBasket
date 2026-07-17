@@ -11,7 +11,7 @@ const LocationUnavailable = () => {
         <div className="flex flex-col items-center justify-center py-20 text-center">
 
             <div className="text-6xl mb-4">
-                📍
+            
             </div>
 
             <h1 className="text-3xl font-bold text-gray-800">

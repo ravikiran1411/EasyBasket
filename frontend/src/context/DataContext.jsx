@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const DataContext=createContext()
 
-const DataContextProvider = (props) =>{
+const DataContextProvider = (props) => {
 
     const backend_url = import.meta.env.VITE_BACKEND_URL
 
@@ -30,7 +30,6 @@ const DataContextProvider = (props) =>{
     const [nearbyProducts,setNearbyProducts] = useState([])
 
     const [token,setToken] = useState(localStorage.getItem("token") || "" ) 
-
 
     const [form, setForm] = useState({
         name: "",

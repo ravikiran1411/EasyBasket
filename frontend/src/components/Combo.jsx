@@ -4,6 +4,7 @@ import { DataContext } from '../context/DataContext'
 import ProductList from './ProductList';
 import { assets } from '../assets/assets';
 import {NavLink} from 'react-router-dom'
+import ProductSkeleton from './ProductSkeleton';
 const Combo = () => {
 
     const {products} = useContext(DataContext);
@@ -17,6 +18,26 @@ const Combo = () => {
     useEffect(()=>{
         comboOffer();
     },[products])
+
+    const { loading } = useContext(DataContext);
+
+if (loading) {
+  return (
+    <div className="mt-5 sm:mt-6 p-5 bg-slate-50 rounded-2xl">
+      <div className="text-black font-medium flex gap-2 items-center justify-center">
+        <span className="w-8 sm:w-12 h-0.5 bg-green-700"></span>
+        <p className="text-2xl sm:text-4xl">Combo Offers</p>
+        <span className="w-8 sm:w-12 h-0.5 bg-green-700"></span>
+      </div>
+
+      <div className="flex overflow-x-auto gap-3 md:grid md:grid-cols-3 lg:grid-cols-5 pb-10 pt-7">
+        {[...Array(5)].map((_, index) => (
+          <ProductSkeleton key={index} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 
   return (

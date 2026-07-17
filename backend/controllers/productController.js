@@ -171,7 +171,6 @@ const updateVendarProducts = async (req,res) => {
         }
         console.log();
         
-
         await product.save();
 
         res.status(200).json({success:true,message:"product updated successfully",product});
@@ -295,7 +294,6 @@ const nearbyProducts = async (req,res) => {
             return res.json({success: false,message: "Location required"});
 
         }
-
 
         const storeId = stores.map(item=>item._id) 
 
