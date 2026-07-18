@@ -8,6 +8,9 @@ const BestSeller = () => {
   const { products, loading } = useContext(DataContext);
   const [bestSeller, setBestSeller] = useState([]);
 
+  console.log(loading);
+  
+
   const fetch_BestSeller = () => {
     const product = products.filter((item) => item.bestSeller);
     setBestSeller(product.slice(0, 5));
@@ -23,7 +26,7 @@ const BestSeller = () => {
       <div className="mt-5 sm:mt-6 p-5 bg-slate-50 rounded-2xl">
         <div className="text-black font-medium flex gap-2 items-center justify-center">
           <span className="w-8 sm:w-12 h-0.5 bg-green-700"></span>
-          <p className="text-2xl sm:text-4xl">BEST SELLERS</p>
+          <p className="text-2xl sm:text-4xl">BEST SELLER</p>
           <span className="w-8 sm:w-12 h-0.5 bg-green-700"></span>
         </div>
 

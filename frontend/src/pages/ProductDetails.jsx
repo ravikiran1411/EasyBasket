@@ -88,7 +88,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchRelated()
-  }, [productData])
+  }, [productData,products])
 
   if (!productData) {
     return <div className="p-5 text-center">Loading...</div>

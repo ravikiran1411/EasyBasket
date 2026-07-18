@@ -1,10 +1,11 @@
 import { createContext,useEffect,useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast} from "react-toastify";
 
 export const DataContext=createContext()
 
 const DataContextProvider = (props) => {
+    const[loading,setLoading]=useState(true);
 
     const backend_url = import.meta.env.VITE_BACKEND_URL
 
@@ -182,6 +183,9 @@ const DataContextProvider = (props) => {
             toast.error(error.message)
 
         }
+        finally{
+            setLoading(false);
+        }
     }
 
     const addCart = async ({productId,quantity}) => {
@@ -269,7 +273,7 @@ const DataContextProvider = (props) => {
     const data={
         currency,deliveryFee,backend_url,token,setToken,products,search,setSearch,showSearch,setShowSearch,qty,setQty,addCart,cartData,setCartData,
         updateCart,dataLoaded,form,setForm,fetchProfile,userData,setUserData,userLocation,locationName,setLocationName,locationDenied,getUserLocation,
-        cities,selectedCity,setSelectedCity,showLocationModal,setShowLocationModal,locationType,setLocationType
+        cities,selectedCity,setSelectedCity,showLocationModal,setShowLocationModal,locationType,setLocationType,loading
     
     }
 

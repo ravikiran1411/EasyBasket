@@ -5,18 +5,11 @@ import { assets } from "../assets/assets";
 import Delivery_in10min from "../components/Delivery_in10min";
 import { useLocation, useNavigate } from "react-router-dom";
 import LocationUnavailable from "../components/LocationUnavailable";
+import ProductSkeleton from "../components/ProductSkeleton";
 
 const Category = () => {
   const navigate = useNavigate();
-  const {
-    products,
-    nearbyProducts,
-    currency,
-    search,
-    setSearch,
-    showSearch,
-    setShowSearch,
-  } = useContext(DataContext);
+  const {products,nearbyProducts,currency,search,setSearch,showSearch,setShowSearch,loading} = useContext(DataContext);
   const [showFilter, setShowFilter] = useState(false);
   const [priceRange, setPriceRange] = useState("");
   const [product, setProduct] = useState([]);
@@ -209,7 +202,9 @@ const Category = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-          {product.length > 0 ? (
+          {loading ? (
+            [...Array(12)].map((_, index) => <ProductSkeleton key={index} />)
+          ) : product.length > 0 ? (
             product.map((item) => (
               <ProductList
                 key={item._id}
@@ -224,7 +219,7 @@ const Category = () => {
               />
             ))
           ) : (
-            <div className="text-center py-12">
+            <div className="col-span-full text-center py-12">
               <p className="text-lg font-medium text-gray-700">
                 No Products Found
               </p>

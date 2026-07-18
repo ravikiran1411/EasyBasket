@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import Footer from "./components/Footer";
 import { DataContext } from "./context/DataContext";
 import LocationUnavailable from "./components/LocationUnavailable";
+import ScrollToTop from "./components/ScrollToTop";
 
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const Category = lazy(() => import("./pages/Category"));
@@ -28,11 +29,12 @@ const App = () => {
 
   return (
     <div>
-      {loading && products.length == 0 ? (
+      {!loading && products.length == 0 ? (
         <LocationUnavailable />
       ) : (
         <div>
-          <ToastContainer position="top-right" autoClose={2000} />
+          <ScrollToTop/>
+          <ToastContainer position="top-right" autoClose={1000} />
           <Navbar />
           <Suspense
             fallback={
